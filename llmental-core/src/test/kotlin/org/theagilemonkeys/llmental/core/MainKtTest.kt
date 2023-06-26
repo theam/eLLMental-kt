@@ -1,4 +1,4 @@
-package org.theagilemonkeys.yolo
+package org.theagilemonkeys.llmental.core
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.property.forAll
