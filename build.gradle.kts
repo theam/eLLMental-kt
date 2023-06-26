@@ -1,8 +1,15 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val kotlinVersion: String by project
 val kotestVersion: String by project
 val arrowVersion: String by project
 val arrowMetaVersion: String by project
 val arrowAnalysisVersion: String by project
+
+plugins {
+    kotlin("jvm") version "1.6.0"
+    id("com.google.devtools.ksp") version "1.6.0-1.0.2"
+}
 
 buildscript {
     repositories {
@@ -13,7 +20,7 @@ buildscript {
     }
 }
 
-subprojects {
+allprojects {
     group = "com.theagilemonkeys.llmental"
     version = "0.0.1"
 
@@ -21,16 +28,16 @@ subprojects {
         mavenCentral()
     }
 
-    plugins.withType<KotlinJvmPluginWrapper> {
+    apply(plugin = "kotlin")
+    apply(plugin = "io.arrow-kt.analysis.kotlin")
+    apply(plugin = "com.google.devtools.ksp")
+
+    tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
 
-    apply(plugin = "io.arrow-kt.analysis.kotlin")
-    apply(plugin = "com.google.devtools.ksp")
-    apply(plugin = "application")
-
     dependencies {
-        "ksp"( "io.arrow-kt:arrow-optics-ksp-plugin:$arrowVersion")
+        "ksp"("io.arrow-kt:arrow-optics-ksp-plugin:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-core:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-fx-coroutines:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-optics:$arrowVersion")
