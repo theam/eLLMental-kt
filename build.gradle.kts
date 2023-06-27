@@ -20,7 +20,7 @@ buildscript {
     }
 }
 
-allprojects {
+subprojects {
     group = "com.theagilemonkeys.llmental"
     version = "0.0.1"
 
@@ -38,6 +38,8 @@ allprojects {
 
     dependencies {
         "ksp"("io.arrow-kt:arrow-optics-ksp-plugin:$arrowVersion")
+        "implementation"(kotlin("stdlib"))
+        "implementation"(kotlin("reflect"))
         "implementation"("io.arrow-kt:arrow-core:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-fx-coroutines:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-optics:$arrowVersion")
