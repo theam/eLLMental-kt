@@ -1,0 +1,74 @@
+val kotlinVersion: String by project
+val kotestVersion: String by project
+val kspVersion: String by project
+val arrowVersion: String by project
+val arrowMetaVersion: String by project
+val arrowAnalysisVersion: String by project
+
+plugins {
+    kotlin("multiplatform") version "1.8.10"
+    id("com.google.devtools.ksp") version "1.8.10-1.0.9"
+    id("io.arrow-kt.analysis.kotlin") version "2.0.2"
+}
+
+group = "com.theagilemonkeys"
+version = "0.0.1"
+
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    jvm()
+    linuxX64()
+    mingwX64()
+    ios()
+    macosX64()
+    macosArm64()
+    js(IR) {
+        useCommonJs()
+        browser()
+    }
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("io.arrow-kt:arrow-core:$arrowVersion")
+                implementation("io.arrow-kt:arrow-fx-coroutines:$arrowVersion")
+                implementation("io.arrow-kt:arrow-optics:$arrowVersion")
+                // add other common dependencies
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation("io.kotest:kotest-assertions-core:$kotestVersion")
+                implementation("io.kotest:kotest-property:$kotestVersion")
+                // add other common test dependencies
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                runtimeOnly("io.kotest:kotest-runner-junit5:$kotestVersion")
+            }
+        }
+    }
+}
+
+allprojects {
+    apply(plugin = "io.arrow-kt.analysis.kotlin")
+    apply(plugin = "com.google.devtools.ksp")
+
+    dependencies {
+        "ksp"("io.arrow-kt:arrow-optics-ksp-plugin:$arrowVersion")
+    }
+
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}

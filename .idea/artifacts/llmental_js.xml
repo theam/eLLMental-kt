@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="llmental-js">
+    <output-path>$PROJECT_DIR$/build/libs</output-path>
+    <root id="archive" name="llmental-js.jar">
+      <element id="module-output" name="llmental.jsMain" />
+    </root>
+  </artifact>
+</component>
