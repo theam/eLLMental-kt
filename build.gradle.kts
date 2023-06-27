@@ -7,17 +7,8 @@ val arrowMetaVersion: String by project
 val arrowAnalysisVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.6.0"
-    id("com.google.devtools.ksp") version "1.6.0-1.0.2"
-}
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.arrow-kt.analysis.kotlin:io.arrow-kt.analysis.kotlin.gradle.plugin:2.0-RC3")
-    }
+    kotlin("jvm") version "1.8.22"
+    id("com.google.devtools.ksp") version "1.8.22-1.0.11"
 }
 
 subprojects {
@@ -29,11 +20,10 @@ subprojects {
     }
 
     apply(plugin = "kotlin")
-    apply(plugin = "io.arrow-kt.analysis.kotlin")
     apply(plugin = "com.google.devtools.ksp")
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "17"
     }
 
     dependencies {
