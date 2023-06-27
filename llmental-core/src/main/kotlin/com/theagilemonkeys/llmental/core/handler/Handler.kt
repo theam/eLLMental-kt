@@ -18,31 +18,12 @@ import kotlin.reflect.KClass
  * perform side effects, even if it is pure.
  */
 class Handler<I : Any, O : Any>(
+    @Mandatory val name: String,
     @Mandatory val inputType: KClass<I>,
     @Mandatory val outputType: KClass<O>,
     @Mandatory val block: HandlerBlock<I, O>,
 ) : PrimitiveModule() {
 
-    /**
-     * By default, we make the name of the handler to be the concatenation of the input and output types.
-     *
-     * This is useful to provide a better developer experience when using the DSL, as it is not mandatory
-     * to set the name of the handler.
-     *
-     * For example, if we have a handler that converts a `String` to an `Int`, the name of the handler
-     * will be `StringToInt`.
-     *
-     * This can be changed by setting the `name` property like this:
-     *
-     * ```kotlin
-     * val handler = handler { input: String ->
-     *     name = "MyCustomName"
-     *     input.toInt()
-     * }
-     * ```
-     */
-    @Mandatory
-    var name: String = "${inputType.simpleName}To${outputType.simpleName}"
 
     /**
      * The invoke operator allows executing the handler as if it was a regular function.
@@ -86,9 +67,39 @@ typealias HandlerBlock<I, O> = suspend Handler<I, O>.(I) -> O
  * We're not using the `makeDsl` function because we want to
  * have the `inline` capability here in order to reflect on the
  * input and output types.
+ *
+ * By default, we make the name of the handler to be the concatenation of the input and output types.
+ *
+ * This is useful to provide a better developer experience when using the DSL, as it is not mandatory
+ * to set the name of the handler.
+ *
+ * For example, if we have a handler that converts a `String` to an `Int`, the name of the handler
+ * will be `StringToInt`.
+ *
+ * This can be changed by setting the name like this:
+ *
+ * ```kotlin
+ * val handler = handler("MyCustomName"){ input: String ->
+ *     input.toInt()
+ * }
+ * ```
  */
 inline fun <reified I : Any, reified O : Any> handler(
     crossinline handle: HandlerBlock<I, O>,
 ): Handler<I, O> {
-    return Handler(I::class, O::class) { handle(it) }
+    val defaultName = "${I::class.simpleName}To${O::class.simpleName}"
+    return handler(defaultName, handle)
+}
+
+/**
+ * Helper function to create a named handler. Same as the previous one,
+ * but it allows to set a custom name.
+ */
+inline fun <reified I : Any, reified O : Any> handler(
+    name: String,
+    crossinline handle: HandlerBlock<I, O>,
+): Handler<I, O> {
+    val result = Handler(name, I::class, O::class) { handle(it) }
+    result.create()
+    return result
 }
