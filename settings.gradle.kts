@@ -1,3 +1,8 @@
 rootProject.name = "llmental"
 include("llmental-core")
-include("semantic-search")
+
+// Services
+include("services:semantic-search")
+
+// API
+include("api:semantic-search")

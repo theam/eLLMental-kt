@@ -1,4 +1,4 @@
-package org.theagilemonkeys.llmental.service.semanticSearch
+package org.theagilemonkeys.llmental.service
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeTrue
