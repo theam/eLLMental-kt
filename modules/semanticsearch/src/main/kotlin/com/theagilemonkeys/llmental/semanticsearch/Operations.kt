@@ -18,14 +18,36 @@ val learn = handler("learn") { entry: SemanticEntry ->
             entry.text
         }
 
-      Then, at the top level, one would use the appropriate implementation:
+      Then, one would define the actual implementation of the handler somewhere
 
         val actualStore = handler("store") { text: String ->
             // store the text
         }
 
-        val initializedLearn = learn.with(actualStore)
-        initializedLearn(entry)
+      Then, at the top level handler, one would use the appropriate implementation, by
+      `provide`ing it to the rest of the scope:
+
+        val myHandler = handler("myHandler") { entry: SemanticEntry ->
+            provide(actualStore)
+            learn(entry)
+        }
+
+      This comes with the benefit that the module can create a function to provide all the
+      handlers that it defines, like so:
+
+        fun provideSemanticSearchImplementation() {
+            provide(learn)
+            provide(search)
+        }
+
+      And then the user of the module can just call that function to get all the handlers
+
+        val foo = handler("foo") {
+            provideSemanticSearchImplementation()
+            // ...
+        }
+
+      OLD NOTES: LEFT FOR THINKING MORE IN THESE TERMS
 
       Maybe we could setup a pattern that makes handlers to be returned by functions
       that have to be initialized with some context, we can copy React on that.
