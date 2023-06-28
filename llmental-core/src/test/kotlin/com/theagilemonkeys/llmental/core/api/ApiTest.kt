@@ -1,4 +1,4 @@
-package com.theagilemonkeys.llmental.core.service
+package com.theagilemonkeys.llmental.core.api
 
 import com.theagilemonkeys.llmental.core.handler.handler
 import io.kotest.common.runBlocking
@@ -6,17 +6,17 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.checkAll
 
-class ServiceTest : BehaviorSpec({
+class ApiTest : BehaviorSpec({
 
     Given("the API DSL") {
         When("I define write operations") {
             Then("I can get the name of the operation correctly") {
-                checkAll { serviceName: String, operationName: String ->
+                checkAll { apiName: String, operationName: String ->
                     val lengthHandler = handler<String, Int>(operationName) { s ->
                         s.length
                     }
 
-                    val sut = api(serviceName) {
+                    val sut = api(apiName) {
                         write(lengthHandler)
                     }
 
@@ -27,12 +27,12 @@ class ServiceTest : BehaviorSpec({
             }
 
             Then("I can execute the handler of the operation") {
-                checkAll { serviceName: String, operationName: String, input: String ->
+                checkAll { apiName: String, operationName: String, input: String ->
                     val lengthHandler = handler<String, Int>(operationName) { s ->
                         s.length
                     }
 
-                    val sut = api(serviceName) {
+                    val sut = api(apiName) {
                         write(lengthHandler)
                     }
 
@@ -48,12 +48,12 @@ class ServiceTest : BehaviorSpec({
 
         When("I define read operations") {
             Then("I can get the name of the operation correctly") {
-                checkAll { serviceName: String, operationName: String ->
+                checkAll { apiName: String, operationName: String ->
                     val lengthHandler = handler<String, Int>(operationName) { s ->
                         s.length
                     }
 
-                    val sut = api(serviceName) {
+                    val sut = api(apiName) {
                         read(lengthHandler)
                     }
 
@@ -64,12 +64,12 @@ class ServiceTest : BehaviorSpec({
             }
 
             Then("I can execute the handler of the operation") {
-                checkAll { serviceName: String, operationName: String, input: String ->
+                checkAll { apiName: String, operationName: String, input: String ->
                     val lengthHandler = handler<String, Int>(operationName) { s ->
                         s.length
                     }
 
-                    val sut = api(serviceName) {
+                    val sut = api(apiName) {
                         read(lengthHandler)
                     }
 

@@ -1,4 +1,4 @@
-package com.theagilemonkeys.llmental.core.service
+package com.theagilemonkeys.llmental.core.api
 
 import com.theagilemonkeys.llmental.core.Mandatory
 import com.theagilemonkeys.llmental.core.PrimitiveModule
