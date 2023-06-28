@@ -7,20 +7,11 @@ val arrowMetaVersion: String by project
 val arrowAnalysisVersion: String by project
 
 plugins {
-    kotlin("jvm") version "1.6.0"
-    id("com.google.devtools.ksp") version "1.6.0-1.0.2"
+    kotlin("jvm") version "1.8.22"
+    id("com.google.devtools.ksp") version "1.8.22-1.0.11"
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.arrow-kt.analysis.kotlin:io.arrow-kt.analysis.kotlin.gradle.plugin:2.0-RC3")
-    }
-}
-
-allprojects {
+subprojects {
     group = "com.theagilemonkeys.llmental"
     version = "0.0.1"
 
@@ -29,15 +20,16 @@ allprojects {
     }
 
     apply(plugin = "kotlin")
-    apply(plugin = "io.arrow-kt.analysis.kotlin")
     apply(plugin = "com.google.devtools.ksp")
 
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "17"
     }
 
     dependencies {
         "ksp"("io.arrow-kt:arrow-optics-ksp-plugin:$arrowVersion")
+        "implementation"(kotlin("stdlib"))
+        "implementation"(kotlin("reflect"))
         "implementation"("io.arrow-kt:arrow-core:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-fx-coroutines:$arrowVersion")
         "implementation"("io.arrow-kt:arrow-optics:$arrowVersion")
