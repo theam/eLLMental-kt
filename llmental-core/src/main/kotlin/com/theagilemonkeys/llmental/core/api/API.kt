@@ -14,14 +14,14 @@ class API(
 
     fun getName(operationName: String) = "$name.$operationName"
 
-    inline fun <reified I : Any, reified O : Any> write(
+    fun <I : Any, O : Any> write(
         handler: Handler<I, O>
     ) {
         @Suppress("UNCHECKED_CAST")
         writeOperations[handler.name] = handler as Handler<Any, Any>
     }
 
-    inline fun <reified I : Any, reified O : Any> read(
+    fun <I : Any, O : Any> read(
         handler: Handler<I, O>
     ) {
         @Suppress("UNCHECKED_CAST")
