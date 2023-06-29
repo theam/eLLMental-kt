@@ -1,9 +1,8 @@
 package com.theagilemonkeys.llmental.semanticsearch
 
-import com.theagilemonkeys.llmental.core.handler.handler
+// TODO: File to be removed. Just kept to maintain this piece of documentation.
 
-val learn = handler("learn") { entry: SemanticEntry ->
-    /*
+/*
       Figure out how to declare "abstract" handlers that are implemented later on
       and can be configured later on, at the top level execution of the service.
 
@@ -90,10 +89,8 @@ val learn = handler("learn") { entry: SemanticEntry ->
         }
 
      */
-    entry.text
-}
 
-val search = handler("search") { entry: SemanticEntry ->
-    entry.text
-}
+
+
+
 

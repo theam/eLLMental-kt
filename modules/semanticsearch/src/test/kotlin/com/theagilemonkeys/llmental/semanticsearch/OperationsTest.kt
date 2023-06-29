@@ -1,5 +1,7 @@
 package com.theagilemonkeys.llmental.semanticsearch
 
+import com.theagilemonkeys.llmental.semanticsearch.learn.learn
+import com.theagilemonkeys.llmental.semanticsearch.schema.SemanticEntry
 import io.kotest.common.runBlocking
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.string.shouldMatch
