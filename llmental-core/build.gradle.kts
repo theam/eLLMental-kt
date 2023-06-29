@@ -3,11 +3,6 @@ val http4kVersion: String by project
 plugins {
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.serialization") version "1.8.22"
-    application
-}
-
-application {
-    mainClass.set("com.theagilemonkeys.llmental.core.MainKt")
 }
 
 dependencies {
