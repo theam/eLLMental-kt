@@ -5,6 +5,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import org.http4k.core.Method
@@ -32,27 +33,6 @@ fun API.toHttpApp(port: Int = 9000): Http4kServer {
         return Response(OK).body(output)
     }
 
-    fun <T : Any> KClass<T>.fromQueryParams(queryParams: Map<String, String>): T {
-        val constructor = this.constructors.first()
-
-        val parameters = constructor.parameters.associateWith { parameter ->
-            val value = queryParams[parameter.name]
-            val serializer = parameter.type.classifier as? KSerializer<*>
-
-            when (serializer) {
-                String.serializer() -> value
-                Int.serializer() -> value?.toInt()
-                Long.serializer() -> value?.toLong()
-                Double.serializer() -> value?.toDouble()
-                Boolean.serializer() -> value?.toBoolean()
-                else -> throw IllegalArgumentException("Unsupported type: ${parameter.type}")
-            }
-        }
-
-        return constructor.callBy(parameters)
-    }
-
-
     fun toPost(handler: Handler<Any, Any>): RoutingHttpHandler =
         "/${handler.name}" bind Method.POST to { request: Request ->
             val input = Json.decodeFromString(
@@ -63,8 +43,9 @@ fun API.toHttpApp(port: Int = 9000): Http4kServer {
 
     fun toGet(handler: Handler<Any, Any>): RoutingHttpHandler =
         "/${handler.name}" bind Method.GET to { req: Request ->
-            val queryParams = req.uri.queries().toMap().mapValues { it.value ?: "" }
-            val input = handler.inputType.fromQueryParams(queryParams)
+            val queryParams = req.uri.queries().toMap()
+            val jsonString = Json.encodeToString(queryParams)
+            val input = Json.decodeFromString(handler.inputType.toSerializer(), jsonString)
             runHandler(input, handler)
         }
 
