@@ -1,31 +1,23 @@
 package com.theagilemonkeys.llmental.semanticsearch
 
-import com.theagilemonkeys.llmental.core.Mandatory
-import com.theagilemonkeys.llmental.core.PrimitiveModule
-import com.theagilemonkeys.llmental.core.handler.handler
-import com.theagilemonkeys.llmental.core.makeDsl
+import com.theagilemonkeys.llmental.core.Abstrakt
 import com.theagilemonkeys.llmental.core.schema.SemanticEntry
 import com.theagilemonkeys.llmental.embeddingsModel.EmbeddingsModel
 import com.theagilemonkeys.llmental.vectorStore.VectorStore
 
-data class SemanticSearch(
-    @Mandatory val name: String,
-    @Mandatory var embeddingsModel: EmbeddingsModel,
-    @Mandatory var vectorStore: VectorStore
-) : PrimitiveModule() {
-    var learn = handler("learn") { text: String ->
-        val embedding = embeddingsModel.embed(text)
+class SemanticSearch {
+
+    context(Abstrakt, EmbeddingsModel, VectorStore)
+    suspend fun learn(text: String) {
+        val embedding = embed(text)
         val semanticEntry = SemanticEntry(text, embedding = embedding)
-        vectorStore.store(semanticEntry)
-        semanticEntry
+        this@VectorStore.store(semanticEntry)
     }
 
-    var search = handler("learn") { text: String ->
-        val embedding = embeddingsModel.embed(text)
+    context(Abstrakt, EmbeddingsModel, VectorStore)
+    suspend fun search(text: String): List<SemanticEntry> {
+        val embedding = embed(text)
         val semanticEntry = SemanticEntry(text, embedding = embedding)
-        vectorStore.search(semanticEntry)
+        return this@VectorStore.search(semanticEntry)
     }
 }
-
-fun semanticSearch(name: String, embeddingsModel: EmbeddingsModel, vectorStore: VectorStore): SemanticSearch =
-    makeDsl(SemanticSearch(name, embeddingsModel, vectorStore)) {}

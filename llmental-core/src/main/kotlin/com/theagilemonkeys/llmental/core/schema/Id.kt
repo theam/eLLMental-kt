@@ -1,3 +1,4 @@
 package com.theagilemonkeys.llmental.core.schema
 
-typealias Id = String
+@JvmInline
+value class Id(val value: String)

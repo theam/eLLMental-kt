@@ -1,3 +1,4 @@
 package com.theagilemonkeys.llmental.core.schema
 
-typealias Embedding = Array<Double>
+@JvmInline
+value class Embedding(val value: Array<Double>)
