@@ -1,7 +1,5 @@
 package com.theagilemonkeys.llmental.semanticsearch
 
-import com.theagilemonkeys.llmental.core.api.Read
-import com.theagilemonkeys.llmental.core.api.Write
 import com.theagilemonkeys.llmental.core.api.apiDefinition
 import com.theagilemonkeys.llmental.core.schema.SemanticEntry
 import com.theagilemonkeys.llmental.embeddingsModel.EmbeddingsModel
@@ -27,8 +25,8 @@ class SemanticSearch {
      * The default API definition for the Semantic Search Service.
      */
     val api = SemanticSearch::class.apiDefinition {
-        define("learn") like Write
-        define("search") like Read
+        write("learn") { s: String -> learn(s) }
+        read("search") { s: String -> search(s) }
     }
 
 

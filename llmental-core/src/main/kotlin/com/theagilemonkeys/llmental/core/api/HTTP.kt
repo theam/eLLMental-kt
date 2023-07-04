@@ -29,6 +29,8 @@ fun <Ctx : Any> API<Ctx>.runHttp(port: Int = 9000) {
  */
 fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
 
+    val serviceName = this.getName()
+
     /**
      * Runs a handler with some input and returns a response.
      *
@@ -48,6 +50,8 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
             }
             val output = Json.encodeToString(handler.outputType.toSerializer(), result)
             Response(OK).body(output)
+        } catch (expectedError: Error) {
+            Response(Status.INTERNAL_SERVER_ERROR).body(e.message ?: "Unknown error")
         } catch (e: SerializationException) {
             Response(Status.BAD_REQUEST).body(e.message ?: "Error serializing output")
         } catch (expectedException: Exception) {
@@ -63,7 +67,7 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
      * @return an HTTP endpoint that can be called with a POST request
      */
     fun toPost(handler: Handler<Any, Any>): RoutingHttpHandler =
-        "/${handler.name}" bind Method.POST to { request: Request ->
+        "/$serviceName/${handler.name}" bind Method.POST to { request: Request ->
             try {
                 val input = Json.decodeFromString(
                     handler.inputType.toSerializer(), request.bodyString()
@@ -91,7 +95,7 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
      * @return an HTTP endpoint that can be called with a GET request
      */
     fun toGet(handler: Handler<Any, Any>): RoutingHttpHandler =
-        "/${handler.name}" bind Method.GET to { req: Request ->
+        "/$serviceName/${handler.name}" bind Method.GET to { req: Request ->
             try {
                 val queryParams = req.uri.queries().toMap()
                 val value = if (!handler.inputType.isData) {
