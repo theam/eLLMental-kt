@@ -3,7 +3,6 @@
 package com.theagilemonkeys.llmental.core.api
 
 
-import com.theagilemonkeys.llmental.core.handler.Handler
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.serializer
@@ -18,12 +17,17 @@ import org.http4k.server.KtorCIO
 import org.http4k.server.asServer
 import kotlin.reflect.KClass
 
+fun <Ctx : Any> API<Ctx>.runHttp(port: Int = 9000) {
+    val app = toHttpApp(port)
+    app.start().block()
+}
+
 /**
  * Converts an API to an HTTP app that is runnable with [Http4kServer.start].
  *
  * @param port the port to run the server on
  */
-fun API.toHttpApp(port: Int = 9000): Http4kServer {
+fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
 
     /**
      * Runs a handler with some input and returns a response.
@@ -40,7 +44,7 @@ fun API.toHttpApp(port: Int = 9000): Http4kServer {
             // which is the one of this current endpoint. Http4k will handle
             // the concurrency for us with their own thread handling mechanism.
             val result = runBlocking {
-                handler(input)
+                handler.handler(input)
             }
             val output = Json.encodeToString(handler.outputType.toSerializer(), result)
             Response(OK).body(output)
