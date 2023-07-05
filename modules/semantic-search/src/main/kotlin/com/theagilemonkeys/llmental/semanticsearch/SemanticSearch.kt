@@ -19,7 +19,7 @@ class SemanticSearch {
     suspend fun search(text: String): List<SemanticEntry> {
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(text, embedding = embedding)
-        return this@VectorStore.query(semanticEntry)
+        return query(semanticEntry)
     }
 
     /**
