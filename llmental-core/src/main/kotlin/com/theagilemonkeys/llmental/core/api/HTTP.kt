@@ -31,33 +31,6 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
 
     val serviceName = this.getName()
 
-    /**
-     * Runs a handler with some input and returns a response.
-     *
-     * @param input the input to run the handler with
-     * @param handler the handler to run
-     * @return 200 OK with the output of the handler if everything went well,
-     * 400 BAD REQUEST if the input could not be deserialized,
-     * 500 INTERNAL SERVER ERROR if the handler threw an exception.
-     */
-    fun runHandler(input: Any, handler: Handler<Any, Any>): Response =
-        try {
-            // This will run the handler blocking ONLY IN THE CURRENT THREAD
-            // which is the one of this current endpoint. Http4k will handle
-            // the concurrency for us with their own thread handling mechanism.
-            val result = runBlocking {
-                handler.handler(input)
-            }
-            val output = Json.encodeToString(handler.outputType.toSerializer(), result)
-            Response(OK).body(output)
-        } catch (expectedError: Error) {
-            Response(Status.INTERNAL_SERVER_ERROR).body(e.message ?: "Unknown error")
-        } catch (e: SerializationException) {
-            Response(Status.BAD_REQUEST).body(e.message ?: "Error serializing output")
-        } catch (expectedException: Exception) {
-            Response(Status.INTERNAL_SERVER_ERROR).body(expectedException.message ?: "Unknown error")
-        }
-
 
     /**
      * Converts a handler to an HTTP endpoint that can be called with a POST request.
@@ -125,6 +98,34 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
     return app.asServer(KtorCIO(port))
 
 }
+
+/**
+ * Runs a handler with some input and returns a response.
+ *
+ * @param input the input to run the handler with
+ * @param handler the handler to run
+ * @return 200 OK with the output of the handler if everything went well,
+ * 400 BAD REQUEST if the input could not be deserialized,
+ * 500 INTERNAL SERVER ERROR if the handler threw an exception.
+ */
+private fun runHandler(input: Any, handler: Handler<Any, Any>): Response =
+    try {
+        // This will run the handler blocking ONLY IN THE CURRENT THREAD
+        // which is the one of this current endpoint. Http4k will handle
+        // the concurrency for us with their own thread handling mechanism.
+        val result = runBlocking {
+            handler.handler(input)
+        }
+        val output = Json.encodeToString(handler.outputType.toSerializer(), result)
+        Response(OK).body(output)
+    } catch (expectedError: Error) {
+        Response(Status.INTERNAL_SERVER_ERROR).body(expectedError.message ?: "Unknown error")
+    } catch (e: SerializationException) {
+        Response(Status.BAD_REQUEST).body(e.message ?: "Error serializing output")
+    } catch (expectedException: Exception) {
+        Response(Status.INTERNAL_SERVER_ERROR).body(expectedException.message ?: "Unknown error")
+    }
+
 
 /**
  * Serialization utility for allowing to get the serializer of a class.
