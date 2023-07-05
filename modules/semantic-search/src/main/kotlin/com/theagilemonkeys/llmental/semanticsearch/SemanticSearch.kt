@@ -1,5 +1,6 @@
 package com.theagilemonkeys.llmental.semanticsearch
 
+import com.aallam.openai.client.OpenAI
 import com.theagilemonkeys.llmental.core.api.apiDefinition
 import com.theagilemonkeys.llmental.core.schema.SemanticEntry
 import com.theagilemonkeys.llmental.embeddingsModel.EmbeddingsModel
@@ -7,18 +8,18 @@ import com.theagilemonkeys.llmental.embeddingsModel.openai.OpenAIEmbeddingsModel
 import com.theagilemonkeys.llmental.vectorStore.VectorStore
 import com.theagilemonkeys.llmental.vectorStore.pinecone.PineconeVectorStore
 
-context(EmbeddingsModel<Nothing>, VectorStore)
+context(EmbeddingsModel<Any>, VectorStore)
 class SemanticSearch {
     suspend fun learn(text: String) {
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(text, embedding = embedding)
-        store(semanticEntry)
+        upsert(semanticEntry)
     }
 
     suspend fun search(text: String): List<SemanticEntry> {
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(text, embedding = embedding)
-        return this@VectorStore.search(semanticEntry)
+        return this@VectorStore.query(semanticEntry)
     }
 
     /**
@@ -43,11 +44,14 @@ class SemanticSearch {
      *  SemanticSearch.default()
      */
     companion object {
-        fun default(): SemanticSearch =
-            with(OpenAIEmbeddingsModel("API KEY")) {
-                with(PineconeVectorStore()) {
-                    with(SemanticSearch()) {
-                        this
+        @Suppress("NestedBlockDepth")
+        fun default() =
+            with(OpenAI(token = "APIKEY")) {
+                with(OpenAIEmbeddingsModel()) {
+                    with(PineconeVectorStore()) {
+                        with(SemanticSearch()) {
+                            this
+                        }
                     }
                 }
             }
