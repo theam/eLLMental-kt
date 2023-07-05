@@ -1,4 +1,5 @@
 val http4kVersion: String by project
+val logbackVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.8.22"
@@ -10,5 +11,5 @@ dependencies {
     implementation("org.http4k:http4k-core")
     implementation("org.http4k:http4k-client-okhttp")
     implementation("org.http4k:http4k-server-ktorcio")
-    implementation("ch.qos.logback:logback-classic:1.4.8")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
 }
