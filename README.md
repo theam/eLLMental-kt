@@ -1,21 +1,68 @@
-# LLMental(2)
+# ![eLLMental](<image_goes_here>)
 
-![haha LLM go brrrrr](https://explosion.ai/static/1863c4dfa57ad28dbbd68e432bde34e9/66a58/llm-maximalism_meme.jpg)
+---
+
+## Introduction
+
+> What is eLLMental?
+> For what can I use it?
+
+The eLLMental project raises from the experience of developers
+from [The Agile Monkeys](https://www.theagilemonkeys.com/)
+
+Overall, eLLMental is designed to help software engineers build AI-driven applications in an efficient manner.
+
+## Getting started
+
+> How can I use it?
+
+The LLMental project aims to solve the major pain points LLMs have, while preserving all the good features they offer.
+
+## eLLMental packages
+
+Below you have a list of the currnent packages eLLMental offers:
+
+1. [eLLMental-core](###eLLMental-core)
+
+### eLLMental-core
+
+This project aims to be a reference for
 
 ## Contributing
 
-We use IntelliJ IDEA for development. You can import the project as a Gradle project.
+> How can I contribute?
 
-Install the `Save Actions Tool` plugin by `Alexandre DuBreuil` to automatically format the code on save.
+### Technical specifications and recommendations
 
-Make sure you've configured it like this in your IDE (although it should be already configured because we
-checked in the settings file):
+In the following table you can see the technical specs of this project
+
+|                      |        |
+|----------------------|--------|
+| Package Manager      | Gradle |
+| Programming Language | Kotlin |
+| JVM Version          | 17     |
+
+### Adding a new package
+
+If you feel that you need to create a different package (like `llmental-core`), you can duplicate the `.kotlin-template`
+folder and rename it to your package name. After that, you'll have to add the package name to the `settings.gradle.kts`
+file, in the `includes` list.
+
+#### Auto-save (Intellij)
+
+Install the [save actions tool](https://plugins.jetbrains.com/plugin/7642-save-actions) plugin by `Alexandre DuBreuil`
+to automatically format the code on save.
+
+Make sure you've configured it like this in your IDE (although it should be already configured because we checked in the
+settings file):
 
 ![Save Actions Tool settings](./.docassets/format-on-save.png)
 
-### Adding a new package into the monorepo
+## Reporting bugs
 
-1. Duplicate the `.kotlin-template` folder and rename it to your package name.
-2. Add the package name to the `settings.gradle.kts` file, in the `includes` list.
-3. ???
-4. Profit!
+> How can I submit an issue/bug?
+
+## License
+
+This eLLMental project is licensed under the Business source license. You can take a look at the details
+in [this article](https://timreview.ca/article/691).
