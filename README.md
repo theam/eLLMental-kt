@@ -22,29 +22,47 @@ challenges that motivated us to start building this project:
    flexible philosophy, by building separate software blocks that con compose themselves into bigger customizable AI
    applications.
 
-Overall, eLLMental is designed to help software engineers build AI-driven applications in an efficient manner by
+Overall, eLLMental is designed to help software engineers build AI-driven applications in an efficient manner by 
 removing all common headaches while integrating AI in your development environment.
+
 
 # Getting started
 
-eLLMental currently implements three different components:
+The main package eLLMental offers is called `ellmental-core`. In this package, we provide an API implementation for your
+AI applications. This API currently support two kind of operations: write (HTTP POST), and read (HTTP GET). You can provide
+your own implementation for these two operations, as you can see in the `SemanticSearch.kt` file.
+
+Technical-wise, `ellmental-core` is built under the following stack:
+
+|                      |        |
+|----------------------|--------|
+| Package Manager      | Gradle |
+| Programming Language | Kotlin |
+| JVM Version          | 17     |
+
+
+## Modules
+
+The eLLMental project also implements three different AI modules:
 
 1. **A vector store:** Database or repository used to house and handle vector representations of words or phrases, known
    as embeddings. eLLMental implements different databases that support vector columns, like Pinecone or Supabase.
 2. **Embedding generator:** The service that is responsible for converting raw text data into representative numerical
    vectors, also known as embeddings.
-3. **Semantic search model:** To search similarities in the vector store.
+3. **Semantic search module:** To search similarities in the vector store.
    Using [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity), which measures the cosine of the angle
    between two vectors. The vectors close to each other (having a smaller angle between them)
    indicate more similar content.
 
-These components work on their own, but we can manage them in an easier way, by using the `YOLO` CLI tool, which will help
-you set up these different components.
+> An example of how these modules are use can be found in the `semantic-search-service-demo` project.
+
+These modules work on their own, but we can manage them in an easier way, by using the `YOLO` CLI tool, which will help
+you set up these different modules.
 
 ## The YOLO tool
 
 The [YOLO](https://github.com/theam/yolo) tool is the way we configure our applications to import different AI
-components. To start using it you just need to run the following command:
+modules. To start using it you just need to run the following command:
 
 `yolo init`
 
@@ -52,7 +70,7 @@ This command will create a `yolo.json` file, in which you will configure your di
 
 ```json
 {
-  "name": "AppName",
+  "name": "SemanticSearch",
   "description": "Description of the app",
   "commands": [
     {
@@ -61,38 +79,39 @@ This command will create a `yolo.json` file, in which you will configure your di
       "script": "npm run deploy",
       "args": [{ ... }]
     }
-  ]
+  ],
+  "modules": {
+    "vector-store": "Pinecone",
+    "embedding-generator": {
+      "llm": "openAI",
+      "api-url": "url",
+      "api-token": "token"
+    }
+  }
 }
 ```
 
-This `yolo.json` file, will allow you to run `yolo run deploy`
+This `yolo.json` file, will allow you to run `yolo run deploy`, that will execute the code inside the `script` key. The final 
+objective for this CLI tool is that it will help us composing different modules too, so we can abstract the boiler-plate code 
+as much as possible.
 
 
 # Contributing
 
-## Technical specifications and recommendations
+We're happy to see that you're interested in contributing, that's great! In the sections below, you can see how to report 
+bugs or suggest enhancements.
 
-The main package eLLMental offers is called `ellmental-core`. In this package, we offer the main abstractions that the components 
-will implement. 
-
-|                      |        |
-|----------------------|--------|
-| Package Manager      | Gradle |
-| Programming Language | Kotlin |
-| JVM Version          | 17     |
-
-This project aims to be a reference for....
-
-> If you feel that you need to create a different package (like `llmental-core`), you can duplicate the `.kotlin-template`
+If your plan is to create a different package or module using Kotlin (like `llmental-core`), you can duplicate the `.kotlin-template`
 folder and rename it to your package name. After that, you'll have to add the package name to the `settings.gradle.kts`
-file, in the `includes` list.
+file, in the `includes` list. This way we will keep the same structure for all of them.
 
 ## Reporting bugs
 
 Before creating a bug report, please search for similar issues to make sure that they're not already reported. If you
 don't find any, go ahead and create an issue including as many details as possible.
 
-> If you find a Closed issue that seems related to the issues that you're experiencing, make sure to reference it in the body of your new one by writing its number like this => #42 (Github will autolink it for you).
+> If you find a Closed issue that seems related to the issues that you're experiencing, make sure to reference it in the 
+> body of your new one by writing its number like this => #42 (Github will autolink it for you).
 
 Bugs are tracked as GitHub issues. Explain the problem and include additional details to help maintainers reproduce the
 problem:
@@ -106,7 +125,7 @@ problem:
 - Explain which behavior you expected to see instead and why.
 - If the problem is related to performance or memory, include a CPU profile capture with your report.
 
-> Remember to label the issue wit a "bug" tag
+> Remember to label the issue with a "bug" tag
 
 ## Suggesting Enhancements
 
