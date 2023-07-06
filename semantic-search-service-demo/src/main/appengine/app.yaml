@@ -1,0 +1,2 @@
+runtime: java17
+entrypoint: 'java -jar semantic-search-service-demo-all.jar'
