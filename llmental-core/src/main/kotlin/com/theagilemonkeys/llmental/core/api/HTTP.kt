@@ -47,7 +47,8 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
                 )
                 runHandler(input, handler)
             } catch (expectedException: Exception) {
-                Response(Status.BAD_REQUEST).body(expectedException.message ?: "Unknown error")
+                val message = expectedException.message ?: "Unknown error"
+                Response(Status.BAD_REQUEST).body("Error decoding input:\n$message")
             }
         }
 
@@ -80,7 +81,11 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
                 val input = Json.decodeFromString(handler.inputType.toSerializer(), value)
                 runHandler(input, handler)
             } catch (expectedException: Exception) {
-                Response(Status.BAD_REQUEST).body(expectedException.message ?: "Unknown error")
+                val message = expectedException.message ?: "Unknown error"
+
+                Response(Status.BAD_REQUEST).body(
+                    "Error decoding input for ${handler.name}:\n\n$message"
+                )
             }
         }
 
@@ -121,7 +126,12 @@ private fun runHandler(input: Any, handler: Handler<Any, Any>): Response =
     } catch (expectedError: Error) {
         Response(Status.INTERNAL_SERVER_ERROR).body(expectedError.message ?: "Unknown error")
     } catch (e: SerializationException) {
-        Response(Status.BAD_REQUEST).body(e.message ?: "Error serializing output")
+        val message = e.message ?: "Error serializing output"
+        Response(Status.BAD_REQUEST).body(
+            """Error serializing output for ${handler.name}:
+                |
+                |$message""".trimMargin()
+        )
     } catch (expectedException: Exception) {
         Response(Status.INTERNAL_SERVER_ERROR).body(expectedException.message ?: "Unknown error")
     }

@@ -7,19 +7,27 @@ import com.theagilemonkeys.llmental.embeddingsModel.EmbeddingsModel
 import com.theagilemonkeys.llmental.embeddingsModel.openai.OpenAIEmbeddingsModel
 import com.theagilemonkeys.llmental.vectorStore.VectorStore
 import com.theagilemonkeys.llmental.vectorStore.pinecone.PineconeVectorStore
+import io.github.cdimascio.dotenv.dotenv
+import kotlinx.serialization.Serializable
+
+
+@Serializable
+data class SearchOutput(
+    val entries: List<SemanticEntry>
+)
 
 context(EmbeddingsModel<Any>, VectorStore)
 class SemanticSearch {
     suspend fun learn(text: String) {
         val embedding = embed(text)
-        val semanticEntry = SemanticEntry(text, embedding = embedding)
+        val semanticEntry = SemanticEntry(embedding = embedding)
         upsert(semanticEntry)
     }
 
-    suspend fun search(text: String): List<SemanticEntry> {
+    suspend fun search(text: String): SearchOutput {
         val embedding = embed(text)
-        val semanticEntry = SemanticEntry(text, embedding = embedding)
-        return query(semanticEntry)
+        val semanticEntry = SemanticEntry(embedding = embedding)
+        return SearchOutput(query(semanticEntry).entries)
     }
 
     /**
@@ -45,16 +53,43 @@ class SemanticSearch {
      */
     companion object {
         @Suppress("NestedBlockDepth")
-        fun default() =
-            with(OpenAI(token = "APIKEY")) {
+        fun default(): SemanticSearch {
+            val envDir = System.getenv("DEBUG_DOTENV")?.trim().let {
+                if (it.isNullOrBlank()) "."
+                else it
+            }
+            val env = dotenv {
+                directory = envDir
+            }
+            val openaiToken = env["OPEN_AI_API_KEY"].let {
+                check(it != null && it.trim().isNotBlank()) {
+                    "OPEN_AI_API_KEY environment variable not set: $it"
+                }
+                it
+            }
+            val pineconeToken = env["PINECONE_API_KEY"].let {
+                check(it != null && it.trim().isNotBlank()) {
+                    "PINECONE_API_KEY environment variable not set"
+                }
+                it
+            }
+            val pineconeUrl = env["PINECONE_URL"].let {
+                check(it != null && it.trim().isNotBlank()) {
+                    "PINECONE_URL environment variable not set"
+                }
+                it
+            }
+
+            with(OpenAI(token = openaiToken)) {
                 with(OpenAIEmbeddingsModel()) {
-                    with(PineconeVectorStore()) {
+                    with(PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)) {
                         with(SemanticSearch()) {
-                            this
+                            return this
                         }
                     }
                 }
             }
+        }
 
     }
 }

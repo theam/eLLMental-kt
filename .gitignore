@@ -36,6 +36,9 @@ bin/
 /nbdist/
 /.nb-gradle/
 
+
+semantic-search-service-demo/.env
+
 ### VS Code ###
 .vscode/
 
