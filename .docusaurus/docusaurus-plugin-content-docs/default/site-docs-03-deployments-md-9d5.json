@@ -1,0 +1,25 @@
+{
+  "unversionedId": "deployments",
+  "id": "deployments",
+  "title": "Deployments",
+  "description": "",
+  "source": "@site/docs/03_deployments.md",
+  "sourceDirName": ".",
+  "slug": "/deployments",
+  "permalink": "/deployments",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/03_deployments.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Getting started",
+    "permalink": "/getting_started"
+  },
+  "next": {
+    "title": "Contributing",
+    "permalink": "/contributing"
+  }
+}

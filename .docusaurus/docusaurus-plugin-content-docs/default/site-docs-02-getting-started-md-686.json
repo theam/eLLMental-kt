@@ -1,0 +1,25 @@
+{
+  "unversionedId": "getting_started",
+  "id": "getting_started",
+  "title": "Getting started",
+  "description": "The main package eLLMental offers is called ellmental-core. In this package, we provide an API implementation for your",
+  "source": "@site/docs/02_getting_started.md",
+  "sourceDirName": ".",
+  "slug": "/getting_started",
+  "permalink": "/getting_started",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/02_getting_started.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Introduction",
+    "permalink": "/"
+  },
+  "next": {
+    "title": "Deployments",
+    "permalink": "/deployments"
+  }
+}

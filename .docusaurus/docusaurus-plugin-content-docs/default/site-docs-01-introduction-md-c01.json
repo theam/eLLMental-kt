@@ -1,0 +1,23 @@
+{
+  "unversionedId": "introduction",
+  "id": "introduction",
+  "title": "Introduction",
+  "description": "The eLLMental project raises from the necessity of developer's to have a single framework that joins flexibility,",
+  "source": "@site/docs/01_introduction.md",
+  "sourceDirName": ".",
+  "slug": "/",
+  "permalink": "/",
+  "draft": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/01_introduction.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "slug": "/"
+  },
+  "sidebar": "docs",
+  "next": {
+    "title": "Getting started",
+    "permalink": "/getting_started"
+  }
+}
