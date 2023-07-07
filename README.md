@@ -1,4 +1,4 @@
-# ![eLLMental](website/img/eLLMental logo with frame.png)
+# ![eLLMental](website/static/img/eLLMental logo with frame.png)
 
 ---
 
@@ -59,42 +59,8 @@ The eLLMental project also implements three different AI modules:
 These modules work on their own, but we can manage them in an easier way, by using the `YOLO` CLI tool, which will help
 you set up these different modules.
 
-## The YOLO tool
-
 The [YOLO](https://github.com/theam/yolo) tool is the way we configure our applications to import different AI
-modules. To start using it you just need to run the following command:
-
-`yolo init`
-
-This command will create a `yolo.json` file, in which you will configure your different scripts. Here's an example: 
-
-```json
-{
-  "name": "SemanticSearch",
-  "description": "Description of the app",
-  "commands": [
-    {
-      "name": "deploy",
-      "description": "command description",
-      "script": "npm run deploy",
-      "args": [{ ... }]
-    }
-  ],
-  "modules": {
-    "vector-store": "Pinecone",
-    "embedding-generator": {
-      "llm": "openAI",
-      "api-url": "url",
-      "api-token": "token"
-    }
-  }
-}
-```
-
-This `yolo.json` file, will allow you to run `yolo run deploy`, that will execute the code inside the `script` key. The final 
-objective for this CLI tool is that it will help us composing different modules too, so we can abstract the boiler-plate code 
-as much as possible.
-
+modules and components.
 
 # Contributing
 
