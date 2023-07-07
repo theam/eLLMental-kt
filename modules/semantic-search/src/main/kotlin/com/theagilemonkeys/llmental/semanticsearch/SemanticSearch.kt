@@ -62,6 +62,8 @@ class SemanticSearch {
             }
             val env = dotenv {
                 directory = envDir
+                ignoreIfMalformed = true
+                ignoreIfMissing = true
             }
             val openaiToken = env["OPEN_AI_API_KEY"].let {
                 check(it != null && it.trim().isNotBlank()) {
