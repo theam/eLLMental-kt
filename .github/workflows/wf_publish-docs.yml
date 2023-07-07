@@ -1,7 +1,9 @@
 name: Publish documentation
 
 on:
-  push:
+# TODO: Change this before merge ->
+  #push:
+  pull_request:
     branches:
       - main
     paths:
