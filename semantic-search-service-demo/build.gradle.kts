@@ -15,5 +15,5 @@ dependencies {
     implementation(projects.modules.vectorStore)
     implementation(projects.modules.semanticSearch)
     implementation(platform("org.http4k:http4k-bom:$http4kVersion"))
-    implementation("org.http4k:http4k-testing-kotest")
+    implementation("org.http4k:http4k-core")
 }

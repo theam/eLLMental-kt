@@ -1,4 +1,4 @@
-package com.theagilemonkeys.llmental.changeme
+package com.theagilemonkeys.llmental.semanticSearchServiceDemo
 
 import com.theagilemonkeys.llmental.core.api.toHttpApp
 import com.theagilemonkeys.llmental.core.schema.Id

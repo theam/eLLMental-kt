@@ -1,4 +1,4 @@
-package com.theagilemonkeys.llmental.changeme
+package com.theagilemonkeys.llmental.semanticSearchServiceDemo
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.property.forAll
