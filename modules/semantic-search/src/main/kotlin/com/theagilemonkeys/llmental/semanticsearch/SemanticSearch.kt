@@ -19,12 +19,14 @@ data class SearchOutput(
 context(EmbeddingsModel<Any>, VectorStore)
 class SemanticSearch {
     suspend fun learn(text: String) {
+        check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(embedding = embedding)
         upsert(semanticEntry)
     }
 
     suspend fun search(text: String): SearchOutput {
+        check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(embedding = embedding)
         return SearchOutput(query(semanticEntry).entries)
