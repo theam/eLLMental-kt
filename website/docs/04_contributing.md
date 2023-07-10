@@ -3,9 +3,6 @@
 We're happy to see that you're interested in contributing, that's great! In the sections below, you can see how to report
 bugs or suggest enhancements.
 
-If your plan is to create a different package or module using Kotlin (like `llmental-core`), you can duplicate the `.kotlin-template`
-folder and rename it to your package name. After that, you'll have to add the package name to the `settings.gradle.kts`
-file, in the `includes` list. This way we will keep the same structure for all of them.
 
 ## Reporting bugs
 
@@ -13,7 +10,7 @@ Before creating a bug report, please search for similar issues to make sure that
 don't find any, go ahead and create an issue including as many details as possible.
 
 > If you find a Closed issue that seems related to the issues that you're experiencing, make sure to reference it in the
-> body of your new one by writing its number like this => #42 (Github will autolink it for you).
+> body of your new one by writing its number like this => #42 (Github will auto-link it for you).
 
 Bugs are tracked as GitHub issues. Explain the problem and include additional details to help maintainers reproduce the
 problem:
@@ -42,7 +39,7 @@ Enhancement suggestions are tracked as GitHub issues. Make sure you provide the 
   implemented as a community package.
 - List some other libraries or frameworks where this enhancement exists.
 
-> Remember to label the issue wit an "enhancement" tag
+> Remember to label the issue with an "enhancement" tag
 
 # License
 

@@ -4,41 +4,36 @@
 
 # Introduction
 
-The eLLMental project raises from the necessity of developer's to have a single framework that joins flexibility,
-efficiency and productivity while building the different block an AI application. During this time, we've seen different
+The eLLMental project raises from the necessity of developers to have a single framework that joins flexibility,
+efficiency, and productivity while building the different blocks of an AI application. During this time, we've seen different
 challenges that motivated us to start building this project:
 
 1. **Lack of Robust Tools and Libraries:** The field being fairly new means there's a lack of effective tools
    custom-made for LLMs, making it more difficult for developers to understand how LLMs work nowadays.
 2. **MLOps management:** There's no one-size-fits-all solution in MLOps and particularly with LLMs, resulting in
    heterogeneity in the tools, platforms, and workflow processes. This means more time is needed to find the right
-   stack. Also, evaluating LLMs performance is not straightforward.
+   stack. Also, evaluating LLMs' performance is not straightforward.
 3. **Security**: Ensuring the security of the underlying infrastructure, including network security, firewall
    configurations, and container security, is a major challenge. Setting up appropriate monitoring and alerts can be
    both technically challenging and resource-intensive.
 4. **Privacy:** LLMs often require large amounts of data, raising potential data privacy issues, which may not be
    adequately addressed by existing MLOps platforms.
-5. **Flexibility:** Application's needs grow constantly, and so does AI applications. That's why we are adopting a
+5. **Flexibility:** Regular applications need to grow constantly, and so do AI applications. That's why we are adopting a
    flexible philosophy, by building separate software blocks that con compose themselves into bigger customizable AI
    applications.
 
-Overall, eLLMental is designed to help software engineers build AI-driven applications in an efficient manner by 
-removing all common headaches while integrating AI in your development environment.
+Overall, eLLMental is designed to help software engineers efficiently build AI-driven applications by
+removing all common headaches while integrating AI into your development environment.
 
 
 # Getting started
 
 The main package eLLMental offers is called `ellmental-core`. In this package, we provide an API implementation for your
-AI applications. This API currently support two kind of operations: write (HTTP POST), and read (HTTP GET). You can provide
-your own implementation for these two operations, as you can see in the `SemanticSearch.kt` file.
+AI applications. This API currently supports two kinds of operations: write, and read. These two kinds of operations 
+can be easily mapped to any kind of API protocol. By default, we offer a REST-style HTTP mapping, but you can easily 
+map it to GraphQL or gRPC.
 
-Technical-wise, `ellmental-core` is built under the following stack:
-
-|                      |        |
-|----------------------|--------|
-| Package Manager      | Gradle |
-| Programming Language | Kotlin |
-| JVM Version          | 17     |
+> `ellmental-core` is built using Kotlin with JVM 17 and using gradle as our package manager.
 
 
 ## Modules
@@ -51,25 +46,57 @@ The eLLMental project also implements three different AI modules:
    vectors, also known as embeddings.
 3. **Semantic search module:** To search similarities in the vector store.
    Using [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity), which measures the cosine of the angle
-   between two vectors. The vectors close to each other (having a smaller angle between them)
+   between two vectors. The vectors that are close to each other (having a smaller angle between them)
    indicate more similar content.
 
-> An example of how these modules are use can be found in the `semantic-search-service-demo` project.
+> An example of how these modules are used can be found in the `semantic-search-service-demo` project.
 
-These modules work on their own, but we can manage them in an easier way, by using the `YOLO` CLI tool, which will help
-you set up these different modules.
+## Creating a semantic index
 
-The [YOLO](https://github.com/theam/yolo) tool is the way we configure our applications to import different AI
-modules and components.
+In the case that you want to create your own semantic index, we recommend you to follow the guidelines below. Anyways 
+you can always see an example app in the [semantic search demo](https://github.com/theam/eLLMental/tree/main/semantic-search-service-demo) from 
+the repo.
+
+First, you'll need to implement the `API.kt` module from `ellmental-core`. This includes two main operations: `read` and `write`.
+
+Second, you'll have to select the embedding's model you want to use. If you want to use the implementations we provide, you 
+can use the ones in the `embeddings-model` module.
+
+Third, you'll need your implementation to call the Vector store you'd want to use. Existing vector stores implementation are present in 
+the `vector-store` module.
+
+Finally, you'll need to put everything together in the Semantic Search module. Here's an example with also the `Main.kt` file:
+
+```kotlin
+// Semantic search module
+fun default(): SemanticSearch =
+            with(OpenAIEmbeddingsModel("API KEY")) {
+                with(PineconeVectorStore()) {
+                    with(SemanticSearch()) {
+                        this
+                    }
+                }
+            }
+
+```
+
+```Main.kt
+SemanticSearch.default().api.runHttp(port = 8080)
+```
+
+After that, you can run `./gradlew :<your_service>:run` to serve your API.
+
+## Creating your own module
+
+If you plan to create a different package or module using Kotlin (like `llmental-core`), you can duplicate the `.kotlin-template`
+folder and rename it to your package name. After that, you'll have to add the package name to the `settings.gradle.kts`
+file, in the `includes` list. This way we will keep the same structure for all of them.
 
 # Contributing
 
 We're happy to see that you're interested in contributing, that's great! In the sections below, you can see how to report 
 bugs or suggest enhancements.
 
-If your plan is to create a different package or module using Kotlin (like `llmental-core`), you can duplicate the `.kotlin-template`
-folder and rename it to your package name. After that, you'll have to add the package name to the `settings.gradle.kts`
-file, in the `includes` list. This way we will keep the same structure for all of them.
 
 ## Reporting bugs
 
@@ -77,7 +104,7 @@ Before creating a bug report, please search for similar issues to make sure that
 don't find any, go ahead and create an issue including as many details as possible.
 
 > If you find a Closed issue that seems related to the issues that you're experiencing, make sure to reference it in the 
-> body of your new one by writing its number like this => #42 (Github will autolink it for you).
+> body of your new one by writing its number like this => #42 (Github will auto-link it for you).
 
 Bugs are tracked as GitHub issues. Explain the problem and include additional details to help maintainers reproduce the
 problem:
@@ -106,7 +133,7 @@ Enhancement suggestions are tracked as GitHub issues. Make sure you provide the 
   implemented as a community package.
 - List some other libraries or frameworks where this enhancement exists.
 
-> Remember to label the issue wit an "enhancement" tag
+> Remember to label the issue with an "enhancement" tag
 
 # License
 
