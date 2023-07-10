@@ -35,10 +35,6 @@
   --ifm-font-family-monospace: 'Poppins', sans-serif;
 }
 
-html[data-theme='light'] .navbar__logo {
-  height: 4.5rem;
-}
-
-html[data-theme='dark'] .navbar__logo {
-  height: 1rem;
+.navbar__logo {
+  height: 1.5rem;
 }

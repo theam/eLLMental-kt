@@ -58,14 +58,14 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/eLLMental logo with frame.png',
+      image: 'img/logoellmental.png',
       stylesheets: [
         "https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap",
       ],
       navbar: {
         logo: {
           alt: 'eLLMental Logo',
-          src: '/img/eLLMental logo with frame.png',
+          src: '/img/logoellmental.png',
           srcDark: '/img/ellemental white.png'
         },
         items: [
