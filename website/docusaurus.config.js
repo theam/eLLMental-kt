@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'eLLMental',
-  favicon: 'img/eLLMental logo with frame.png',
+  favicon: 'img/isotype.png',
 
   // Set the production url of your site here
   url: 'https://docs.ellmental.com',
@@ -59,10 +59,14 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/eLLMental logo with frame.png',
+      stylesheets: [
+        "https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap",
+      ],
       navbar: {
         logo: {
           alt: 'eLLMental Logo',
           src: '/img/eLLMental logo with frame.png',
+          srcDark: '/img/ellemental white.png'
         },
         items: [
           {

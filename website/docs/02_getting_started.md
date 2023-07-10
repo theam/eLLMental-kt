@@ -8,7 +8,7 @@ map it to GraphQL or gRPC.
 > `ellmental-core` is built using Kotlin with JVM 17 and using gradle as our package manager.
 
 
-## Modules
+## :jigsaw: Modules
 
 The eLLMental project also implements three different AI modules:
 
