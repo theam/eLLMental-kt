@@ -10,6 +10,10 @@ import com.theagilemonkeys.llmental.vectorStore.pinecone.PineconeVectorStore
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.serialization.Serializable
 
+@Serializable
+data class SearchInput(
+    val texts: List<String>
+)
 
 @Serializable
 data class SearchOutput(
@@ -18,7 +22,7 @@ data class SearchOutput(
 
 context(EmbeddingsModel<Any>, VectorStore)
 class SemanticSearch {
-    suspend fun learn(text: String) {
+    suspend fun learn(input: SearchInput) = input.texts.forEach { text ->
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(embedding = embedding)
@@ -36,7 +40,7 @@ class SemanticSearch {
      * The default API definition for the Semantic Search Service.
      */
     val api = SemanticSearch::class.apiDefinition {
-        write("learn") { s: String -> learn(s) }
+        write("learn") { s: SearchInput -> learn(s) }
         read("search") { s: String -> search(s) }
     }
 
