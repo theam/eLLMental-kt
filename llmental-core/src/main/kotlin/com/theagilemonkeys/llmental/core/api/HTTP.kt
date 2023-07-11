@@ -22,6 +22,8 @@ fun <Ctx : Any> API<Ctx>.runHttp(port: Int = 9000) {
     app.start().block()
 }
 
+const val UNKNOWN_ERROR_MESSAGE = "Unknown error"
+
 /**
  * Converts an API to an HTTP app that is runnable with [Http4kServer.start].
  *
@@ -47,7 +49,7 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
                 )
                 runHandler(input, handler)
             } catch (expectedException: Exception) {
-                val message = expectedException.message ?: "Unknown error"
+                val message = expectedException.message ?: UNKNOWN_ERROR_MESSAGE
                 Response(Status.BAD_REQUEST).body("Error decoding input:\n$message")
             }
         }
@@ -81,7 +83,7 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
                 val input = Json.decodeFromString(handler.inputType.toSerializer(), value)
                 runHandler(input, handler)
             } catch (expectedException: Exception) {
-                val message = expectedException.message ?: "Unknown error"
+                val message = expectedException.message ?: UNKNOWN_ERROR_MESSAGE
 
                 Response(Status.BAD_REQUEST).body(
                     "Error decoding input for ${handler.name}:\n\n$message"
@@ -124,7 +126,7 @@ private fun runHandler(input: Any, handler: Handler<Any, Any>): Response =
         val output = Json.encodeToString(handler.outputType.toSerializer(), result)
         Response(OK).body(output)
     } catch (expectedError: Error) {
-        Response(Status.INTERNAL_SERVER_ERROR).body(expectedError.message ?: "Unknown error")
+        Response(Status.INTERNAL_SERVER_ERROR).body(expectedError.message ?: UNKNOWN_ERROR_MESSAGE)
     } catch (e: SerializationException) {
         val message = e.message ?: "Error serializing output"
         Response(Status.BAD_REQUEST).body(
@@ -133,7 +135,7 @@ private fun runHandler(input: Any, handler: Handler<Any, Any>): Response =
                 |$message""".trimMargin()
         )
     } catch (expectedException: Exception) {
-        Response(Status.INTERNAL_SERVER_ERROR).body(expectedException.message ?: "Unknown error")
+        Response(Status.INTERNAL_SERVER_ERROR).body(expectedException.message ?: UNKNOWN_ERROR_MESSAGE)
     }
 
 
