@@ -2,7 +2,7 @@ name: Continuous Integration
 
 on:
   pull_request:
-    branches: ["main", "release"]
+    branches: [ "main", "release" ]
   workflow_dispatch:
 
 env:
@@ -27,11 +27,12 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Build with Gradle
+      - name: Build and Test with Gradle
         run: ./gradlew build
-
-      - name: Test with Gradle
-        run: ./gradlew test
+        env:
+          OPEN_AI_API_KEY: ${{ secrets.OPEN_AI_API_KEY }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          PINECONE_URL: ${{ secrets.PINECONE_URL }}
 
       # Uncomment if the repo is public - doesn't work for private GitHub repos
       # - name: Bundle build report

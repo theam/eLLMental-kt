@@ -5,10 +5,13 @@ val kotlinxSerializationVersion: String by project
 val kotestVersion: String by project
 val arrowVersion: String by project
 val arrowMetaVersion: String by project
+val kotlinOpenaiVersion: String by project
+val dotenvKotlinVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.8.22"
     id("com.google.devtools.ksp") version "1.8.22-1.0.11"
+    id("co.uzzu.dotenv.gradle") version "2.0.0"
 }
 
 repositories {
@@ -36,6 +39,8 @@ subprojects {
         "ksp"("io.arrow-kt:arrow-optics-ksp-plugin:$arrowVersion")
         "implementation"(kotlin("stdlib"))
         "implementation"(kotlin("reflect"))
+        "implementation"("io.github.cdimascio:dotenv-kotlin:$dotenvKotlinVersion")
+        "implementation"("com.aallam.openai:openai-client:$kotlinOpenaiVersion")
         "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
         "implementation"("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
         "implementation"("io.arrow-kt:arrow-core:$arrowVersion")
