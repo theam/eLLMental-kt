@@ -1,3 +1,5 @@
+group = "com.theagilemonkeys.llmental.core"
+
 val http4kVersion: String by project
 val logbackVersion: String by project
 

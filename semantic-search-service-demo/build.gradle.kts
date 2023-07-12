@@ -1,3 +1,5 @@
+group = "com.theagilemonkeys.llmental.semantic-search-service-demo"
+
 val http4kVersion: String by project
 
 plugins {

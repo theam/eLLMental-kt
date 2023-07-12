@@ -44,3 +44,5 @@ semantic-search-service-demo/.env
 
 ### Mac OS ###
 .DS_Store
+
+.env

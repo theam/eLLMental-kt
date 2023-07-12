@@ -1,3 +1,5 @@
+group = "com.theagilemonkeys.llmental.embeddings-model"
+
 val ktorVersion: String by project
 
 plugins {

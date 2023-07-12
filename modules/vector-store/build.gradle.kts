@@ -1,3 +1,5 @@
+group = "com.theagilemonkeys.llmental.vector-store"
+
 val http4kVersion: String by project
 
 plugins {
