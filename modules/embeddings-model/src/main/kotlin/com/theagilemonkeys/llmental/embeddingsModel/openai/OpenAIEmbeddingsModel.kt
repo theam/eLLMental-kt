@@ -6,12 +6,14 @@ import com.aallam.openai.client.OpenAI
 import com.theagilemonkeys.llmental.core.schema.Embedding
 import com.theagilemonkeys.llmental.embeddingsModel.EmbeddingsModel
 
+const val EMBEDDING_MODEL_ID = "text-embedding-ada-002"
+
 context(OpenAI)
 class OpenAIEmbeddingsModel : EmbeddingsModel<Any> {
 
     override suspend fun embed(text: String, params: Any?): Embedding {
         val request = EmbeddingRequest(
-            model = ModelId("text-embedding-ada-002"),
+            model = ModelId(EMBEDDING_MODEL_ID),
             input = listOf(text)
         )
         val result = embeddings(request)
