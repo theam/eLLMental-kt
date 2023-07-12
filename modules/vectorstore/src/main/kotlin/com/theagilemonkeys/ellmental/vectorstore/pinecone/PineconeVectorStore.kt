@@ -19,7 +19,7 @@ class PineconeVectorStore(
     private val client: HttpHandler = OkHttp(),
 ) : VectorStore {
 
-    private suspend fun post(path: String, bodyString: String? = null): String {
+    private fun post(path: String, bodyString: String? = null): String {
         val request = Request(Method.POST, "$url$path")
             .header("accept", "application/json")
             .header("content-type", "application/json")
