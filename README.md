@@ -1,4 +1,4 @@
-# LLMental(2)
+# Ellmental(2)
 
 ![haha LLM go brrrrr](https://explosion.ai/static/1863c4dfa57ad28dbbd68e432bde34e9/66a58/llm-maximalism_meme.jpg)
 

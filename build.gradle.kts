@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val rootGroupId = "com.theagilemonkeys.llmental"
+val rootGroupId = "com.theagilemonkeys.ellmental"
 
 val kotlinVersion: String by project
 val kotlinxSerializationVersion: String by project
