@@ -3,23 +3,19 @@ slug: /
 ---
 # Introduction
 
-The ***eLLMental*** project raises from the necessity of developers to have a **single framework that joins flexibility,
-efficiency, and productivity** while building the different blocks of an **AI application**. During this time, we've seen different
-challenges that motivated us to start building this project:
+The ***eLLMental*** project was born out of the necessity for developers to have **a single toolset that combines flexibility,
+efficiency, and productivity** while building AI-driven applications. As a team specializing in AI product development,
+we've started to find recurrent challenges that motivated us to start building this project:
 
-1. :hammer_and_wrench: **Lack of Robust Tools and Libraries:** The field being fairly new means there's a lack of effective tools
-   custom-made for LLMs, making it more difficult for developers to understand how LLMs work nowadays.
-2. :brain: **MLOps management:** There's no one-size-fits-all solution in MLOps and particularly with LLMs, resulting in
-   heterogeneity in the tools, platforms, and workflow processes. This means more time is needed to find the right
-   stack. Also, evaluating LLMs' performance is not straightforward.
-3. :lock: **Security**: Ensuring the security of the underlying infrastructure, including network security, firewall
-   configurations, and container security, is a major challenge. Setting up appropriate monitoring and alerts can be
-   both technically challenging and resource-intensive.
-4. :key: **Privacy:** LLMs often require large amounts of data, raising potential data privacy issues, which may not be
-   adequately addressed by existing MLOps platforms.
-5. :jigsaw: **Flexibility:** Regular applications need to grow constantly, and so do AI applications. That's why we are adopting a
-   flexible philosophy, by building separate software blocks that con compose themselves into bigger customizable AI
-   applications.
+1. :hammer_and_wrench: **Lack of Robust Tools and Libraries:** As the field is relatively new, there's a shortage of high-quality production-ready 
+tools that help developers to iterate quickly at a certain scale.
+2. :brain: **MLOps management:** There's no "single click" MLOps solutions that let developers start working on their applications 
+in a short period of time without investing a significant amount of time.
+3. :lock: **Security**: Ensuring minimal security standards of the underlying infrastructure, including network security, 
+firewall configurations, and container security, is a major challenge.
+4. :key: **Privacy:** Sometimes it's unclear how privacy is handled when using models that are behind an API provided by a startup.
+5. :jigsaw: **Dependency to the Python stack:** Most existing tools were designed by and for data scientists that use Python as 
+their default go-to programming language, but most production apps, especially in enterprise, use JVM or .Net based stacks. This not only have an implication on the language used, but also on tooling and configuration management.
 
 Overall, ***eLLMental*** is designed to help software engineers efficiently build AI-driven applications by
 **removing all common headaches while integrating AI into your development environment.**
