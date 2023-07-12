@@ -3,5 +3,5 @@ plugins {
 }
 
 application {
-    mainClass.set("com.theagilemonkeys.llmental.MainKt")
+    mainClass.set("com.theagilemonkeys.ellmental.MainKt")
 }
