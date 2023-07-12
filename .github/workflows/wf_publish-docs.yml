@@ -26,7 +26,7 @@ jobs:
 
       - name: Download CONTRIBUTING.md
         run: |
-          curl -o CONTRIBUTING.md https://raw.githubusercontent.com/theam/eLLMental/main/CONTRIBUTING.md
+          curl -o CONTRIBUTING.md https://raw.githubusercontent.com/theam/eLLMental/main/README.md
 
       - name: Install dependencies
         run: npm ci
