@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val rootGroupId = "com.theagilemonkeys.ellmental"
+
 val kotlinVersion: String by project
 val kotlinxSerializationVersion: String by project
 val kotestVersion: String by project
@@ -11,7 +13,7 @@ val dotenvKotlinVersion: String by project
 plugins {
     kotlin("jvm") version "1.8.22"
     id("com.google.devtools.ksp") version "1.8.22-1.0.11"
-    id("co.uzzu.dotenv.gradle") version "2.0.0"
+    id("maven-publish")
 }
 
 repositories {
@@ -19,16 +21,24 @@ repositories {
 }
 
 subprojects {
-    group = "com.theagilemonkeys.llmental"
-    version = "0.0.1"
+    group = rootGroupId
+    version = rootProject.version.toString()
 
+    apply(plugin = "kotlin")
+    apply(plugin = "com.google.devtools.ksp")
+    apply(plugin = "maven-publish")
 
     repositories {
         mavenCentral()
     }
 
-    apply(plugin = "kotlin")
-    apply(plugin = "com.google.devtools.ksp")
+    configure<PublishingExtension> {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                from(components["java"])
+            }
+        }
+    }
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
