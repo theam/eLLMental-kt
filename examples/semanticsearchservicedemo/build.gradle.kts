@@ -7,8 +7,6 @@ val http4kVersion: String by project
 
 group = "com.theagilemonkeys.ellmental.semanticsearchservicedemo"
 
-val http4kVersion: String by project
-
 plugins {
     application
     kotlin("plugin.serialization") version "1.8.22"
