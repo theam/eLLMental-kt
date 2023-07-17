@@ -18,7 +18,7 @@ Every idea, big or small, holds the potential to make a significant impact, and 
 
 Everyone participating in this project is expected to abide by the [eLLMental Code of Conduct](CODE_OF_CONDUCT.md), which is based on the Contributor Covenant Code of Conduct.
 
-If you encounter any behavior that violates our code of conduct, please send an email to `info@theagilemonkeys.com` or a direct message to any of the administrators in our official Discord server. All reports will be examined and investigated promptly and in a manner that respects the privacy and safety of the affected individual(s).
+If you encounter any behavior that violates our code of conduct, please send an email to `info@theagilemonkeys.com` or a direct message to any of the administrators in our official [Discord server](https://discord.gg/34cBbvjjAx). All reports will be examined and investigated promptly and in a manner that respects the privacy and safety of the affected individual(s).
 
 ## Setting Up a Development Environment
 
@@ -213,4 +213,4 @@ Once you've chosen an issue to work on, please assign it to yourself. This helps
 
 ## Get in touch!
 
-If you feel lost, don't hesitate to reach out the core team. You can connect with us via email writing to [info@theagilemonkeys.com](mailto:info@theagilemonkeys.com), or joining our official Discord server. We will be more than happy to hear about you!
+If you feel lost, don't hesitate to reach out the core team. You can connect with us via email writing to [info@theagilemonkeys.com](mailto:info@theagilemonkeys.com), or joining our official [Discord server](https://discord.gg/34cBbvjjAx). We will be more than happy to hear about you!
