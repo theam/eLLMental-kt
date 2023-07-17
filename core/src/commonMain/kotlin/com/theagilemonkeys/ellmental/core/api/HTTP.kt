@@ -3,7 +3,7 @@
 package com.theagilemonkeys.ellmental.core.api
 
 
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
@@ -15,6 +15,7 @@ import org.http4k.routing.routes
 import org.http4k.server.Http4kServer
 import org.http4k.server.KtorCIO
 import org.http4k.server.asServer
+import kotlin.coroutines.*
 import kotlin.reflect.KClass
 
 fun <Ctx : Any> API<Ctx>.runHttp(port: Int = 9000) {
@@ -115,15 +116,19 @@ fun <Ctx : Any> API<Ctx>.toHttpApp(port: Int = 9000): Http4kServer {
  * 400 BAD REQUEST if the input could not be deserialized,
  * 500 INTERNAL SERVER ERROR if the handler threw an exception.
  */
+@OptIn(DelicateCoroutinesApi::class)
 private fun runHandler(input: Any, handler: Handler<Any, Any>): Response =
     try {
         // This will run the handler blocking ONLY IN THE CURRENT THREAD
         // which is the one of this current endpoint. Http4k will handle
         // the concurrency for us with their own thread handling mechanism.
+        MainScope().launch {
+
+        }
         val result = runBlocking {
             handler.handler(input)
         }
-        val output = Json.encodeToString(handler.outputType.toSerializer(), result)
+        val output = Json.encodeToString(handler.outputType.toSerializer(), result!!)
         Response(OK).body(output)
     } catch (expectedError: Error) {
         Response(Status.INTERNAL_SERVER_ERROR).body(expectedError.message ?: UNKNOWN_ERROR_MESSAGE)
