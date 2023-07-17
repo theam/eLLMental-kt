@@ -26,7 +26,11 @@ jobs:
           src: "build/dokka/htmlMultiModule"
           dest: "website/docs"
           folder: "dokka"
-          overview-id: "overview"
+          modules: |
+            core
+            modules/embeddingsmodel
+            modules/semanticsearch
+            modules/vectorstore
 
   deploy-docs:
     name: Publish documentation
