@@ -78,7 +78,7 @@ We believe that community contributions are essential to the development and ref
 2. Engage in vibrant discussions on our [eLLMental Community Forums](https://eLLMental.com/forum).
 3. Spread the word about eLLMental.
 
-Detailed instructions for community contributions can be found in our [Contributing Guide](CONTRIBUTING.md).
+Detailed instructions for community contributions can be found in our [Contributing Guide](website/CONTRIBUTING.md).
 
 ## License
 
