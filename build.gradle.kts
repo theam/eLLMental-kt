@@ -14,6 +14,7 @@ plugins {
     kotlin("jvm") version "1.8.22"
     id("com.google.devtools.ksp") version "1.8.22-1.0.11"
     id("maven-publish")
+    id("org.jetbrains.dokka") version "1.8.20"
 }
 
 repositories {
@@ -27,6 +28,7 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "com.google.devtools.ksp")
     apply(plugin = "maven-publish")
+    apply(plugin = "org.jetbrains.dokka")
 
     repositories {
         mavenCentral()
