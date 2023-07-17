@@ -4,6 +4,20 @@
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
+// Required for the Dokka component to work
+const webpackConfig = {
+  name: 'dokka-adapter',
+  configureWebpack(config) {
+    config.module.rules.push({
+      test: /\.source$/, // matches .source files
+      type: 'asset/source', // handled as source assets
+    });
+
+    return config;
+  },
+}
+
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'eLLMental',
@@ -50,6 +64,8 @@ const config = {
     ],
   ],
 
+  plugins: [() => webpackConfig],
+
 
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -85,16 +101,4 @@ const config = {
     }),
 };
 
-// Required for the Dokka component to work
-const webpackConfig = {
-  configureWebpack(config) {
-    config.module.rules.push({
-      test: /\.source$/, // matches .source files
-      type: 'asset/source', // handled as source assets
-    });
-
-    return config;
-  },
-}
-
-module.exports = {...config, ...webpackConfig};
+module.exports = config
