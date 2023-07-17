@@ -50,8 +50,9 @@ const config = {
     ],
   ],
 
+
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
       image: 'img/logoellmental.png',
@@ -84,4 +85,16 @@ const config = {
     }),
 };
 
-module.exports = config;
+// Required for the Dokka component to work
+const webpackConfig = {
+  configureWebpack(config) {
+    config.module.rules.push({
+      test: /\.source$/, // matches .source files
+      type: 'asset/source', // handled as source assets
+    });
+
+    return config;
+  },
+}
+
+module.exports = {...config, ...webpackConfig};
