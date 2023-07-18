@@ -19,18 +19,7 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
       - name: Generate Dokka documentation
-        run: ./gradlew dokkaHtmlMultiModule
-      - uses: graphglue/dokka-html-mdx-transform@v1.7.20
-        with:
-          src: "build/dokka/htmlMultiModule"
-          dest: "website/docs"
-          folder: "dokka"
-          modules: |
-            core
-            modules/embeddingsmodel
-            modules/semanticsearch
-            modules/vectorstore
-
+        run: ./gradlew processDokkaDocs
       - uses: actions/setup-node@v3
         with:
           path: website

@@ -68,3 +68,81 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+tasks.register<DefaultTask>("processDokkaDocs") {
+    dependsOn("dokkaGfmCollector")
+
+    doLast {
+        val sourceDir = file("build/dokka/gfmCollector")
+        val targetDir = file("website/docs/api_docs")
+
+        fun String.convertDashedToUpper(): String {
+//            return this.split("-").joinToString("") {
+//                if (it.isNotEmpty() && indexOf(it) != 0) it.capitalize()
+//                else ""
+//            }
+            var shouldCapitalize = false
+            return this.map {
+                when {
+                    it == '-' -> {
+                        shouldCapitalize = true
+                        ""
+                    }
+
+                    shouldCapitalize -> {
+                        shouldCapitalize = false
+                        it.toUpperCase()
+                    }
+
+                    else -> it
+                }
+            }.joinToString("")
+        }
+
+        delete(targetDir)
+
+        copy {
+            from(sourceDir)
+            into(targetDir)
+        }
+
+        fileTree(targetDir).forEach { file ->
+            if (file.isFile) {
+                val content = file
+                    .readText()
+                    .replace("<br>", "<br/>")
+                    .replace("[jvm]\\", "")
+
+                val tag = when {
+                    content.contains("Package") -> ""
+                    content.contains("interface") -> "interface"
+                    content.contains("constructor") -> "class"
+                    content.contains("fun ") -> "fun"
+                    content.contains("val ") -> "val"
+                    else -> ""
+                }
+
+                val parentName = file.parentFile.name.replace(rootGroupId, "").convertDashedToUpper()
+                val fileName = file.nameWithoutExtension.convertDashedToUpper()
+                val label = when (fileName) {
+                    parentName -> parentName
+                    "index" -> parentName
+                    else -> fileName
+                }
+
+                val contentWithFrontMatter = """---
+title: $fileName
+sidebar_label: "$tag $label"
+sidebar_class_name: "codetag-sidebar"
+sidebar_custom_props:
+  tag: $tag
+  name: $label
+---
+
+$content""".trimIndent()
+
+                file.writeText(contentWithFrontMatter)
+            }
+        }
+    }
+}
