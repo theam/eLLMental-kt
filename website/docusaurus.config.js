@@ -66,11 +66,6 @@ const config = {
 
   plugins: [
     () => webpackConfig,
-    '@docusaurus/plugin-content-docs',
-    '@docusaurus/plugin-content-blog',
-    '@docusaurus/plugin-content-pages',
-    '@docusaurus/plugin-debug',
-    '@docusaurus/plugin-sitemap',
   ],
 
 
