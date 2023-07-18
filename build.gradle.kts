@@ -117,21 +117,31 @@ tasks.register<DefaultTask>("processDokkaDocs") {
                     content.contains("Package") -> ""
                     content.contains("interface") -> "interface"
                     content.contains("constructor") -> "class"
+                    content.contains("object [Companion]") -> "companion"
                     content.contains("fun ") -> "fun"
                     content.contains("val ") -> "val"
                     else -> ""
                 }
 
+                val simpleParentName = file.parentFile.name.convertDashedToUpper()
                 val parentName = file.parentFile.name.replace(rootGroupId, "").convertDashedToUpper()
                 val fileName = file.nameWithoutExtension.convertDashedToUpper()
-                val label = when (fileName) {
+
+                if (simpleParentName == fileName) {
+                    file.delete()
+                    return@forEach
+                }
+
+                val fileLabel = when (fileName) {
                     parentName -> parentName
                     "index" -> parentName
                     else -> fileName
                 }
 
+                val label = if (tag == "companion") "object" else fileLabel
+
                 val contentWithFrontMatter = """---
-title: $fileName
+title: $label
 sidebar_label: "$tag $label"
 sidebar_class_name: "codetag-sidebar"
 sidebar_custom_props:
