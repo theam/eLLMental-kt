@@ -6,8 +6,6 @@ Welcome to eLLMental – your toolbox for the AI-era! This project is a treasure
 
 eLLMental erases the thin line between AI and conventional software development, giving you a direct pathway to seamlessly integrate AI components into your applications. With a wide array of tools and features ready for you to use, eLLMental offers an environment where AI becomes as accessible and manageable as any other part of your tech stack.
 
-If you're ready for the challenge and excited about pushing the boundaries of what you can build with AI, step right into the world of eLLMental.
-
 ## Table of Contents
 
 - [Why eLLMental?](#why-ellmental)
@@ -15,8 +13,6 @@ If you're ready for the challenge and excited about pushing the boundaries of wh
 - [Contributing and Community](#contributing-and-community)
 - [License](#license)
 - [Contact](#contact)
-
-Indeed, that's a great angle to take. Let's emphasize the reasons why developers would find eLLMental beneficial for their work:
 
 ## Why eLLMental?
 
