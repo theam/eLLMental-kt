@@ -64,7 +64,16 @@ const config = {
     ],
   ],
 
-  plugins: [() => webpackConfig],
+  plugins: [
+    () => webpackConfig,
+    '@docusaurus/plugin-content-docs',
+    '@docusaurus/plugin-content-blog',
+    '@docusaurus/plugin-content-pages',
+    '@docusaurus/plugin-debug',
+    '@docusaurus/plugin-google-gtag',
+    '@docusaurus/plugin-google-tag-manager',
+    '@docusaurus/plugin-sitemap',
+  ],
 
 
   themeConfig:
