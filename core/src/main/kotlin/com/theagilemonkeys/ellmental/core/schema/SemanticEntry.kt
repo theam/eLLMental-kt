@@ -3,8 +3,9 @@ package com.theagilemonkeys.ellmental.core.schema
 import kotlinx.serialization.Serializable
 import java.util.*
 
-@Serializable
 /**
+ * # Semantic Entry
+ *
  * A Semantic Entry is a representation of a semantic concept, useful to perform semantic searches,
  * and interacting with a vector embedding database.
  *
@@ -13,6 +14,7 @@ import java.util.*
  * @param metadata a map of metadata associated with the entry - optional
  * @param clusterId the id of the cluster that the entry belongs to - optional
  */
+@Serializable
 data class SemanticEntry(
     val id: Id = generateId(),
     val embedding: Embedding,

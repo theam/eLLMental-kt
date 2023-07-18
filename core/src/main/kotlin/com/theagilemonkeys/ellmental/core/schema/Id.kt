@@ -2,10 +2,8 @@ package com.theagilemonkeys.ellmental.core.schema
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-@JvmInline
 /**
- * Id
+ * # Id
  *
  * An Id is a string that represents an identifier for a given object.
  *
@@ -13,4 +11,6 @@ import kotlinx.serialization.Serializable
  *
  * @param value the string that represents the identifier
  */
+@Serializable
+@JvmInline
 value class Id(val value: String)
