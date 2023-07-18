@@ -23,7 +23,18 @@ const sidebars = {
       items: ['deployments/aws', 'deployments/azure', 'deployments/container', 'deployments/gcp'],
       collapsed: true,
     },
-    'contributing',
+    {
+      type: 'category',
+      label: 'Contributing',
+      link: {
+        type: 'doc',
+        id: 'contributing/index'
+      },
+      items: [
+        'contributing/index',
+        'contributing/code_of_conduct',
+      ]
+    },
     {
       type: 'category',
       label: 'API Docs',
