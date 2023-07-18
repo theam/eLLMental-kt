@@ -15,7 +15,7 @@ participate and help us continue to expand the boundaries of our project. Welcom
 3. [Reporting Bugs](#reporting-bugs)
 4. [Suggesting Enhancements](#suggesting-enhancements)
 5. [Improving Documentation](#improving-documentation)
-6. [Creating your First GitHub Issue](#create-your-first-github-issue)
+6. [Create your First GitHub Issue](#create-your-first-github-issue)
 7. [Your First Code Contribution](#your-first-code-contribution)
 
 ## Code of Conduct
