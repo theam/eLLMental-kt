@@ -70,8 +70,6 @@ const config = {
     '@docusaurus/plugin-content-blog',
     '@docusaurus/plugin-content-pages',
     '@docusaurus/plugin-debug',
-    '@docusaurus/plugin-google-gtag',
-    '@docusaurus/plugin-google-tag-manager',
     '@docusaurus/plugin-sitemap',
   ],
 
