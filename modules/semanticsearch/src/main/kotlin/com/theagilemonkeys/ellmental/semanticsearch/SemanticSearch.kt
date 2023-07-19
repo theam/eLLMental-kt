@@ -14,7 +14,7 @@ context(EmbeddingsModel<Any>, VectorStore)
 /**
  * # Semantic Search
  *
- * The Semantic Search module allows you to index and search for semantically similar texts.
+ * The Semantic Search component allows you to index and search for semantically similar texts.
  * Under the hoods, it uses the Embeddings Model and the Vector Store modules.
  */
 class SemanticSearch {
