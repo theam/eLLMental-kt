@@ -10,18 +10,20 @@ import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
 import io.github.cdimascio.dotenv.dotenv
 import kotlinx.serialization.Serializable
 
-@Serializable
-data class SearchInput(
-    val texts: List<String>
-)
-
-@Serializable
-data class SearchOutput(
-    val entries: List<SemanticEntry>
-)
-
 context(EmbeddingsModel<Any>, VectorStore)
+/**
+ * # Semantic Search
+ *
+ * The Semantic Search module allows you to index and search for semantically similar texts.
+ * Under the hoods, it uses the Embeddings Model and the Vector Store modules.
+ */
 class SemanticSearch {
+
+    /**
+     * Stores a list of texts into the module.
+     *
+     * @param input A list of texts to be stored.
+     */
     suspend fun learn(input: SearchInput) = input.texts.forEach { text ->
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
@@ -29,6 +31,12 @@ class SemanticSearch {
         upsert(semanticEntry)
     }
 
+    /**
+     * Searches for semantically similar texts.
+     *
+     * @param text The text to be searched.
+     * @return A list of semantically similar texts.
+     */
     suspend fun search(text: String): SearchOutput {
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
@@ -38,6 +46,8 @@ class SemanticSearch {
 
     /**
      * The default API definition for the Semantic Search Service.
+     *
+     * @deprecated - API definition will be moved out of the repo in the future
      */
     val api = SemanticSearch::class.apiDefinition {
         write("learn") { s: SearchInput -> learn(s) }
@@ -56,6 +66,8 @@ class SemanticSearch {
      *  Usage:
      *
      *  SemanticSearch.default()
+     *
+     *  @deprecated - API definition will be moved out of the repo in the future
      */
     companion object {
         @Suppress("NestedBlockDepth")
@@ -101,4 +113,14 @@ class SemanticSearch {
 
     }
 }
+
+@Serializable
+data class SearchInput(
+    val texts: List<String>
+)
+
+@Serializable
+data class SearchOutput(
+    val entries: List<SemanticEntry>
+)
 
