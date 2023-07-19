@@ -3,7 +3,6 @@ package com.theagilemonkeys.ellmental.semanticsearchservicedemo
 import com.theagilemonkeys.ellmental.core.api.toHttpApp
 import com.theagilemonkeys.ellmental.core.schema.Id
 import com.theagilemonkeys.ellmental.semanticsearch.SearchOutput
-import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -15,7 +14,7 @@ import org.http4k.core.Method
 import org.http4k.core.Request
 
 class MainKtTest : StringSpec() {
-    val server = autoClose(SemanticSearch.default().api.toHttpApp().start())
+    val server = autoClose(buildApi().toHttpApp().start())
     val client = JavaHttpClient()
 
     init {
