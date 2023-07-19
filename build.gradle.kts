@@ -108,10 +108,15 @@ tasks.register<DefaultTask>("processDokkaDocs") {
 
         fileTree(targetDir).forEach { file ->
             if (file.isFile) {
+                val simpleParentName = file.parentFile.name.convertDashedToUpper()
+                val parentName = file.parentFile.name.replace(rootGroupId, "").convertDashedToUpper()
+                val fileName = file.nameWithoutExtension.convertDashedToUpper()
+
                 val content = file
                     .readText()
                     .replace("<br>", "<br/>")
                     .replace("[jvm]\\", "")
+                    .replace("${file.parentFile.name}.md", "index.md")
 
                 val tag = when {
                     content.contains("Package") -> ""
@@ -122,10 +127,6 @@ tasks.register<DefaultTask>("processDokkaDocs") {
                     content.contains("val ") -> "val"
                     else -> ""
                 }
-
-                val simpleParentName = file.parentFile.name.convertDashedToUpper()
-                val parentName = file.parentFile.name.replace(rootGroupId, "").convertDashedToUpper()
-                val fileName = file.nameWithoutExtension.convertDashedToUpper()
 
                 if (simpleParentName == fileName) {
                     file.delete()
