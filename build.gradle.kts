@@ -77,10 +77,6 @@ tasks.register<DefaultTask>("processDokkaDocs") {
         val targetDir = file("website/docs/api_docs")
 
         fun String.convertDashedToUpper(): String {
-//            return this.split("-").joinToString("") {
-//                if (it.isNotEmpty() && indexOf(it) != 0) it.capitalize()
-//                else ""
-//            }
             var shouldCapitalize = false
             return this.map {
                 when {

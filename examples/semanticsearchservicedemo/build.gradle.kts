@@ -20,7 +20,7 @@ plugins {
 }
 
 application {
-    mainClass.set("com.theagilemonkeys.semanticsearchservicedemo.MainKt")
+    mainClass.set("com.theagilemonkeys.ellmental.semanticsearchservicedemo.MainKt")
 }
 
 version = "all"
@@ -45,7 +45,7 @@ azurewebapp {
 }
 
 tasks.azureWebAppDeploy {
-    dependsOn(tasks.shadowJar )
+    dependsOn(tasks.shadowJar)
 }
 
 
