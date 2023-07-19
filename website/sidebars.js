@@ -17,12 +17,13 @@ const sidebars = {
   docs: [
     'introduction',
     'getting_started',
-    {
-      type: 'category',
-      label: 'Deployments',
-      items: ['deployments/aws', 'deployments/azure', 'deployments/container', 'deployments/gcp'],
-      collapsed: true,
-    },
+    // TODO: In the current release, eLLMental is just offering a Kotlin library that doesn't need to be deployed. We can re-enable this section if we implement an API service generator.
+    // {
+    //   type: 'category',
+    //   label: 'Deployments',
+    //   items: ['deployments/aws', 'deployments/azure', 'deployments/container', 'deployments/gcp'],
+    //   collapsed: true,
+    // },
     {
       type: 'category',
       label: 'Contributing',
