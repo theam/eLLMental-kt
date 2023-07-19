@@ -23,6 +23,7 @@ const sidebars = {
       items: ['deployments/aws', 'deployments/azure', 'deployments/container', 'deployments/gcp'],
       collapsed: true,
     },
+    'components',
     {
       type: 'category',
       label: 'Contributing',
