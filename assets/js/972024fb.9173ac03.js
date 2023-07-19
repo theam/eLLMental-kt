@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkellmental"] = self["webpackChunkellmental"] || []).push([[7778],{
+(self["webpackChunkellmental"] = self["webpackChunkellmental"] || []).push([[2178],{
 
 /***/ 3905:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -212,7 +212,7 @@ function createElement (type, props) {
 
 /***/ }),
 
-/***/ 882:
+/***/ 6222:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -285,8 +285,8 @@ version 2.0, available at
 enforcement ladder`),`.`),(0,esm/* mdx */.kt)("p",null,`For answers to common questions about this code of conduct, see the FAQ at
 `,(0,esm/* mdx */.kt)("a",{parentName:"p","href":"https://www.contributor-covenant.org/faq"},`https://www.contributor-covenant.org/faq`),`. Translations are available at
 `,(0,esm/* mdx */.kt)("a",{parentName:"p","href":"https://www.contributor-covenant.org/translations"},`https://www.contributor-covenant.org/translations`),`.`));};MDXContent.isMDXComponent=true;
-;// CONCATENATED MODULE: ./docs/contributing/code_of_conduct.mdx
-/* @jsxRuntime classic */ /* @jsx mdx */ /* @jsxFrag React.Fragment */const code_of_conduct_frontMatter={};const code_of_conduct_contentTitle='Code of Conduct';const metadata={"unversionedId":"contributing/code_of_conduct","id":"contributing/code_of_conduct","title":"Code of Conduct","description":"","source":"@site/docs/contributing/code_of_conduct.mdx","sourceDirName":"contributing","slug":"/contributing/code_of_conduct","permalink":"/contributing/code_of_conduct","draft":false,"tags":[],"version":"current","lastUpdatedBy":"Nick Tchayka","lastUpdatedAt":1689788478,"formattedLastUpdatedAt":"Jul 19, 2023","frontMatter":{},"sidebar":"docs","previous":{"title":"Introduction","permalink":"/contributing/"},"next":{"title":" .core.api","permalink":"/api_docs/ellmental/com.theagilemonkeys.ellmental.core.api/"}};const assets={};const code_of_conduct_toc=[];const code_of_conduct_layoutProps={toc: code_of_conduct_toc};const code_of_conduct_MDXLayout="wrapper";function code_of_conduct_MDXContent(_ref){let{components,...props}=_ref;return (0,esm/* mdx */.kt)(code_of_conduct_MDXLayout,(0,esm_extends/* default */.Z)({},code_of_conduct_layoutProps,props,{components:components,mdxType:"MDXLayout"}),(0,esm/* mdx */.kt)("h1",{"id":"code-of-conduct"},`Code of Conduct`),(0,esm/* mdx */.kt)(MDXContent,{mdxType:"CodeOfConduct"}));};code_of_conduct_MDXContent.isMDXComponent=true;
+;// CONCATENATED MODULE: ./docs/04_community/code_of_conduct.mdx
+/* @jsxRuntime classic */ /* @jsx mdx */ /* @jsxFrag React.Fragment */const code_of_conduct_frontMatter={};const code_of_conduct_contentTitle='Contributor Covenant Code of Conduct';const metadata={"unversionedId":"community/code_of_conduct","id":"community/code_of_conduct","title":"Contributor Covenant Code of Conduct","description":"","source":"@site/docs/04_community/code_of_conduct.mdx","sourceDirName":"04_community","slug":"/community/code_of_conduct","permalink":"/community/code_of_conduct","draft":false,"tags":[],"version":"current","lastUpdatedBy":"Nick Tchayka","lastUpdatedAt":1689788519,"formattedLastUpdatedAt":"Jul 19, 2023","frontMatter":{},"sidebar":"docs","previous":{"title":"Contributing Guide","permalink":"/community/contributing"},"next":{"title":" .core.api","permalink":"/api_docs/ellmental/com.theagilemonkeys.ellmental.core.api/"}};const assets={};const code_of_conduct_toc=[];const code_of_conduct_layoutProps={toc: code_of_conduct_toc};const code_of_conduct_MDXLayout="wrapper";function code_of_conduct_MDXContent(_ref){let{components,...props}=_ref;return (0,esm/* mdx */.kt)(code_of_conduct_MDXLayout,(0,esm_extends/* default */.Z)({},code_of_conduct_layoutProps,props,{components:components,mdxType:"MDXLayout"}),(0,esm/* mdx */.kt)("h1",{"id":"contributor-covenant-code-of-conduct"},`Contributor Covenant Code of Conduct`),(0,esm/* mdx */.kt)("div",{class:"hiddenh1s"},(0,esm/* mdx */.kt)(MDXContent,{mdxType:"CodeOfConduct"})));};code_of_conduct_MDXContent.isMDXComponent=true;
 
 /***/ })
 

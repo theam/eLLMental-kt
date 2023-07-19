@@ -3120,6 +3120,9 @@ html[data-theme='dark'] {
   height: 1.5rem;
 }
 
+.hiddenh1s > h1 {
+  display: none;
+}
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *

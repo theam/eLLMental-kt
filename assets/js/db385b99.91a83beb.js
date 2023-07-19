@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkellmental"] = self["webpackChunkellmental"] || []).push([[9603],{
+(self["webpackChunkellmental"] = self["webpackChunkellmental"] || []).push([[1728],{
 
 /***/ 3905:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -212,7 +212,7 @@ function createElement (type, props) {
 
 /***/ }),
 
-/***/ 1202:
+/***/ 3391:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -319,8 +319,8 @@ for impact a given change will have.`),(0,esm/* mdx */.kt)("p",null,`Once you've
 contribute and reduces the chance of duplicate work.`),(0,esm/* mdx */.kt)("h2",{"id":"get-in-touch"},`Get in touch!`),(0,esm/* mdx */.kt)("p",null,`If you feel lost, don't hesitate to reach out the core team. You can connect with us via email writing
 to `,(0,esm/* mdx */.kt)("a",{parentName:"p","href":"mailto:info@theagilemonkeys.com"},`info@theagilemonkeys.com`),`, or joining our
 official `,(0,esm/* mdx */.kt)("a",{parentName:"p","href":"https://discord.gg/34cBbvjjAx"},`Discord server`),`. We will be more than happy to hear about you!`));};MDXContent.isMDXComponent=true;
-;// CONCATENATED MODULE: ./docs/contributing/index.mdx
-/* @jsxRuntime classic */ /* @jsx mdx */ /* @jsxFrag React.Fragment */const contributing_frontMatter={};const contributing_contentTitle='Introduction';const metadata={"unversionedId":"contributing/index","id":"contributing/index","title":"Introduction","description":"","source":"@site/docs/contributing/index.mdx","sourceDirName":"contributing","slug":"/contributing/","permalink":"/contributing/","draft":false,"tags":[],"version":"current","lastUpdatedBy":"Nick Tchayka","lastUpdatedAt":1689788478,"formattedLastUpdatedAt":"Jul 19, 2023","frontMatter":{},"sidebar":"docs","previous":{"title":"Getting started","permalink":"/getting_started"},"next":{"title":"Introduction","permalink":"/contributing/"}};const assets={};const contributing_toc=[];const contributing_layoutProps={toc: contributing_toc};const contributing_MDXLayout="wrapper";function contributing_MDXContent(_ref){let{components,...props}=_ref;return (0,esm/* mdx */.kt)(contributing_MDXLayout,(0,esm_extends/* default */.Z)({},contributing_layoutProps,props,{components:components,mdxType:"MDXLayout"}),(0,esm/* mdx */.kt)("h1",{"id":"introduction"},`Introduction`),(0,esm/* mdx */.kt)(MDXContent,{mdxType:"ContributingGuide"}));};contributing_MDXContent.isMDXComponent=true;
+;// CONCATENATED MODULE: ./docs/04_community/contributing.mdx
+/* @jsxRuntime classic */ /* @jsx mdx */ /* @jsxFrag React.Fragment */const contributing_frontMatter={};const contributing_contentTitle='Contributing Guide';const metadata={"unversionedId":"community/contributing","id":"community/contributing","title":"Contributing Guide","description":"","source":"@site/docs/04_community/contributing.mdx","sourceDirName":"04_community","slug":"/community/contributing","permalink":"/community/contributing","draft":false,"tags":[],"version":"current","lastUpdatedBy":"Nick Tchayka","lastUpdatedAt":1689788519,"formattedLastUpdatedAt":"Jul 19, 2023","frontMatter":{},"sidebar":"docs","previous":{"title":"Community","permalink":"/community/"},"next":{"title":"Contributor Covenant Code of Conduct","permalink":"/community/code_of_conduct"}};const assets={};const contributing_toc=[];const contributing_layoutProps={toc: contributing_toc};const contributing_MDXLayout="wrapper";function contributing_MDXContent(_ref){let{components,...props}=_ref;return (0,esm/* mdx */.kt)(contributing_MDXLayout,(0,esm_extends/* default */.Z)({},contributing_layoutProps,props,{components:components,mdxType:"MDXLayout"}),(0,esm/* mdx */.kt)("h1",{"id":"contributing-guide"},`Contributing Guide`),(0,esm/* mdx */.kt)("div",{class:"hiddenh1s"},(0,esm/* mdx */.kt)(MDXContent,{mdxType:"ContributingGuide"})));};contributing_MDXContent.isMDXComponent=true;
 
 /***/ })
 
