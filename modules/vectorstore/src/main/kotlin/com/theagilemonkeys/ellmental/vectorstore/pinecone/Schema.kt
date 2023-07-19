@@ -2,6 +2,10 @@ package com.theagilemonkeys.ellmental.vectorstore.pinecone
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Internal schema of the Pinecone API. Used to serialize and deserialize requests and responses internally.
+ * It is not meant to be used directly.
+ */
 class Schema {
     @Serializable
     data class SparseValues(

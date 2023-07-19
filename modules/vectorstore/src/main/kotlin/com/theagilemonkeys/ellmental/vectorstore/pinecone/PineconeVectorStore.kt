@@ -13,6 +13,14 @@ import org.http4k.core.HttpHandler
 import org.http4k.core.Method
 import org.http4k.core.Request
 
+/**
+ * # Pinecone Vector Store
+ *
+ * Implementation of the [VectorStore] interface that uses the Pinecone API.
+ *
+ * @param apiKey The API key to use to authenticate with the Pinecone API.
+ * @param url The URL of the Pinecone API.
+ */
 class PineconeVectorStore(
     private val apiKey: String,
     private val url: String,
@@ -33,6 +41,11 @@ class PineconeVectorStore(
         return response.bodyString()
     }
 
+    /**
+     * Upserts a semantic entry into the store.
+     *
+     * @param semanticEntry The semantic entry to upsert.
+     */
     override suspend fun upsert(semanticEntry: SemanticEntry) {
         val body = Schema.UpsertBody(
             Vectors(
@@ -46,6 +59,12 @@ class PineconeVectorStore(
         post("/vectors/upsert", bodyString)
     }
 
+    /**
+     * Queries the store for semantic entries. Uses a `topK` value of 10.
+     *
+     * @param semanticEntry The semantic entry to query for.
+     * @return a [QueryOutput] that contains a list of semantic entries that match the query.
+     */
     override suspend fun query(semanticEntry: SemanticEntry): QueryOutput {
         val body = Schema.QueryBody(
             topK = 10,
