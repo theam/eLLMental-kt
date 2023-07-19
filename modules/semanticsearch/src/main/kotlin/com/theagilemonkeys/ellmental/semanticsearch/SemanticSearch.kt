@@ -15,9 +15,9 @@ context(EmbeddingsModel<Any>, VectorStore)
 class SemanticSearch {
 
     /**
-     * Stores a list of texts into the module.
+     * "Learns" a list of texts to make them available in future semantic searches. It uses the [EmbeddingsModel] to calculate text embeddings for each piece of text. Then it uses the [VectorStore] to persist them.
      *
-     * @param input A list of texts to be stored.
+     * @param input A list of texts to be learned.
      */
     suspend fun learn(input: SearchInput) = input.texts.forEach { text ->
         check(text.isNotBlank()) { "Text cannot be blank" }
