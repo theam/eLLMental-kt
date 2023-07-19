@@ -25,14 +25,18 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Contributing',
+      label: 'Community',
       link: {
         type: 'doc',
-        id: 'contributing/index'
+        id: 'community/index'
       },
       items: [
-        'contributing/index',
-        'contributing/code_of_conduct',
+        'community/contributing',
+        {
+          type: 'doc',
+          id: 'community/code_of_conduct',
+          label: 'Code of Conduct'
+        }
       ]
     },
     {
