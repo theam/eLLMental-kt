@@ -36,3 +36,7 @@
 .navbar__logo {
     height: 1.5rem;
 }
+
+.hiddenh1s > h1 {
+  display: none;
+}
