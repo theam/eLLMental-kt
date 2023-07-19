@@ -32,10 +32,10 @@ class SemanticSearch {
     }
 
     /**
-     * Searches for semantically similar texts.
+     * Performs a semantic search operation using the provided text as reference. It will look for texts stored in the [VectorStore] that are "semantically close" to the provided one and return a ranked list of results.
      *
-     * @param text The text to be searched.
-     * @return A list of semantically similar texts.
+     * @param text The text to be used as reference for semantic search.
+     * @return A list of semantically similar texts ranked by semantic distance (the closest first).
      */
     suspend fun search(text: String): SearchOutput {
         check(text.isNotBlank()) { "Text cannot be blank" }
