@@ -40,6 +40,10 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
     }
 }
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
 ```
 
 ## Step 2: Creating the Note class
@@ -69,6 +73,7 @@ import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
 
 fun embeddingsModel(): OpenAIEmbeddingsModel {
     val openaiToken = System.getenv("OPEN_AI_API_KEY")
+    check(openaiToken != null) { "OPEN_AI_API_KEY environment variable is not set" }
     with(OpenAI(token = openaiToken)) {
         return OpenAIEmbeddingsModel()
     }
@@ -76,7 +81,9 @@ fun embeddingsModel(): OpenAIEmbeddingsModel {
 
 fun vectorStore(): PineconeVectorStore {
     val pineconeToken = System.getenv("PINECONE_API_KEY")
+    check (pineconeToken != null) { "PINECONE_API_KEY environment variable is not set" }
     val pineconeUrl = System.getenv("PINECONE_URL")
+    check (pineconeUrl != null) { "PINECONE_URL environment variable is not set" }
     return PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)
 }
 ```
@@ -116,6 +123,8 @@ suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
 suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
     semanticSearch.search(query).entries.map {
         // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
+        // we just gonna return the id
+        it.id.value
     }
 }
 ```
@@ -125,28 +134,28 @@ suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> 
 The only thing that's missing now is an application loop. Let's implement so in the `main` function.
 
 ```kotlin
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-
 fun main() = runBlocking {
     val semanticSearch = semanticSearch()
     println("Available commands: learn, search, quit\n")
     var shouldQuit = false
     while (!shouldQuit) {
         print("> ")
-        when (val event = readln()) {
+        when (readln()) {
             "help" -> {
                 println("Available commands: learn, search, quit")
             }
             "learn" -> {
                 println("Enter note content:")
-                val note = readln()
+                val txt = readln()
+                val note = Note(
+                  id = 1,
+                  content = txt
+                )
                 learn(semanticSearch, note)
             }
             "search" -> {
                 println("Enter query:")
-                val query = inputQuery()
+                val query = readln()
                 val results = search(semanticSearch, query)
                 println(results)
             }
