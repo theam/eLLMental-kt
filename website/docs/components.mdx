@@ -1,0 +1,196 @@
+---
+title: Components
+---
+
+# Introduction to the usage of components
+
+Welcome to the Components section of the eLLMental library! eLLMental is like a master chef's kitchen, but
+instead of preparing food with ingredients, it helps you whip up AI applications with ease through the usage of
+well-defined components that work extremely well together.
+
+In eLLMental, components are defined through interfaces. This means that you can easily swap out components for your
+own implementations, or even use multiple implementations of the same component in the same application. This allows
+you to easily experiment with different components and see which ones work best for your use case.
+
+In order to use a component, you have two different options:
+
+## Option 1: Pass the component as a parameter
+
+This is the simplest way to use a component. You simply pass the component as a parameter to the function or the
+constructor of the
+class where you will use the component. Here's an example:
+
+```kotlin
+import com.theagilemonkeys.ellmental.embeddingmodel.*
+
+// Passing it as a parameter to the function
+suspend fun doSomething(embeddingModel: EmbeddingModel<Any>): Embedding {
+    return embeddingModel.embed("Hello world!")
+}
+
+// Passing it as a parameter to the constructor
+class MyService(val embeddingModel: EmbeddingModel<Any>) {
+    suspend fun doSomething(): Embedding {
+        return embeddingModel.embed("Hello world!")
+    }
+}
+```
+
+Then, you would pass a concrete implementation when calling these functions or instantiating the class:
+
+```kotlin
+suspend fun main() {
+    // Instantiate the concrete implementation of the EmbeddingModel interface
+    val embeddingModel = OpenAIEmbeddingsModel("API KEY")
+
+    // Passing it as a parameter to the function
+    doSomething(embeddingModel)
+
+    // Passing it as a parameter to the constructor
+    val myService = MyService(embeddingModel)
+    myService.doSomething()
+}
+```
+
+# Option 2: Use Context Receivers
+
+Context Receivers are a Kotlin feature that allows you to express the required dependencies of a function or a class
+through the use of the `context` keyword. This way you can avoid passing the dependencies as parameters, and instead
+let the compiler inject the dependencies for you. This is like dependency injection, but without the need for a
+dependency injection framework. Here's an example:
+
+```kotlin
+import com.theagilemonkeys.ellmental.embeddingmodel.*
+
+// Using Context Receivers in a function
+context(EmbeddingModel<Any>)
+suspend fun doSomething(): Embedding {
+    return embed("Hello world!")
+}
+
+
+// Using Context Receivers in a class
+context(EmbeddingModel<Any>)
+class MyService {
+    suspend fun doSomething(): Embedding {
+        return embed("Hello world!")
+    }
+}
+```
+
+This way, the methods of the `EmbeddingModel` component are available in the scope of the function or class as if they
+were defined in the function or class itself. The cool part is that if you want to depend in multiple components, you
+can simply add them to the parameters of the `context` keyword:
+
+```kotlin
+import com.theagilemonkeys.ellmental.embeddingmodel.*
+import com.theagilemonkeys.ellmental.vectorstore.*
+
+context(EmbeddingModel<Any>, VectorStore)
+suspend fun doSomething() {
+    TODO()
+}
+```
+
+Then, to pass the concrete implementations, you can use the `with` Kotlin function:
+
+```kotlin
+fun main() {
+    with(OpenAIEmbeddingsModel("API KEY")) {
+        with(PineconeVectorStore("API KEY")) {
+            doSomething()
+        }
+    }
+}
+```
+
+# Available components
+
+In this section you will find a list of all the available components in eLLMental, along with a brief description of
+what they do and how to use them.
+
+If you want to go to the API documentation of a component, simply click on its name.
+
+## [EmbeddingsModel](api_docs/ellmental/com.theagilemonkeys.ellmental.embeddingsmodel/-embeddings-model/index.md)
+
+The embeddings model is the component that is responsible for generating embeddings from text.
+
+An embedding is a semantic representation of a piece of text. It is a vector of numbers that represents the meaning of
+the text.
+
+For example, If we were to represent the embeddings of the words `swimming`, `swam`, `walking`, `walked` in a very
+simplified visualization, we could see them like this:
+
+<img
+  alt="Visualization of word embeddings"
+  src={require("./assets/word2vec.png").default}
+  style={{
+    width: "300px",
+  }}/>
+
+Embeddings are useful because they allow you to compare
+pieces of text by their _meaning_ rather than by their characters or other properties. For example, the embeddings of
+the sentences "I like apples" and "I like oranges" will be very similar, because the vector representation of the
+sentences is similar.
+
+The EmbeddingModel interface declares a generic parameter that represents possible configuration options for the
+implementation of the EmbeddingModel. If you're unsure about what to use, you can use `Any` as the generic parameter,
+and then specify it later once you decide on a concrete implementation.
+
+The EmbeddingModel component declares a single `embed` method. This method receives a string that can be a
+single word, a sentence, a paragraph, or even a whole book, as long as the implementation of the EmbeddingModel that
+you are using supports processing the length of text that you are passing.
+
+```kotlin
+import com.theagilemonkeys.ellmental.embeddingmodel.*
+
+context(EmbeddingModel<Any>)
+suspend fun doSomething() {
+    val swimmingEmbedding = embed("swimming")
+    println(swimmingEmbedding)
+}
+```
+
+## [VectorStore](api_docs/ellmental/com.theagilemonkeys.ellmental.vectorstore/-vector-store/index.md)
+
+The VectorStore component is the component that is responsible for storing the embeddings generated by the
+EmbeddingModel.
+
+It is important to note that the VectorStore component is not responsible for generating the embeddings. It only stores
+and retrieves them.
+
+The VectorStore component declares two methods: `upsert` and `query`. The `upsert` method is used to store embeddings
+in the VectorStore, and the `query` method is used to retrieve semantically similar embeddings from the VectorStore.
+
+```kotlin
+import com.theagilemonkeys.ellmental.vectorstore.*
+
+context(VectorStore)
+suspend fun doSomething() {
+    val embedding = // some embedding generated by an EmbeddingModel
+
+    upsert(embedding)
+    val similarEmbeddings = query(embedding)
+    println(similarEmbeddings)
+}
+```
+
+## [SemanticSearch](api_docs/ellmental/com.theagilemonkeys.ellmental.semanticsearch/-semantic-search/index.md)
+
+The SemanticSearch component abstracts the process of generating embeddings from text and storing them in a VectorStore
+in order to be able to perform semantic searches easily. It is a combination of the EmbeddingModel and VectorStore
+components.
+
+The SemanticSearch component declares two methods: `learn` and `search`. The `learn` method is used to store the
+semantic meaning of a piece of text, and the `search` method is used to retrieve semantically similar pieces of text.
+
+```kotlin
+import com.theagilemonkeys.ellmental.semanticsearch.*
+
+context(SemanticSearch)
+suspend fun doSomething() {
+    learn("Hello world!", embedding)
+    val similarEmbeddings = search("Hello world!")
+    println(similarEmbeddings)
+}
+```
