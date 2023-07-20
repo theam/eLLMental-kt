@@ -24,6 +24,7 @@ const sidebars = {
     //   items: ['deployments/aws', 'deployments/azure', 'deployments/container', 'deployments/gcp'],
     //   collapsed: true,
     // },
+    'Components',
     {
       type: 'category',
       label: 'Community',

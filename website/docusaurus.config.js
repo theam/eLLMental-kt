@@ -69,12 +69,12 @@ const config = {
         items: [
           {
             href: 'https://github.com/theam/eLLMental',
-            label: 'Kotlin',
+            label: 'GitHub',
             position: 'right',
           },
           {
-            href: 'https://github.com/theam/ellmental.py',
-            label: 'Python',
+            href: 'https://discord.gg/34cBbvjjAx',
+            label: 'Discord',
             position: 'right',
           },
         ],
@@ -82,6 +82,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['kotlin'],
       },
     }),
 };
