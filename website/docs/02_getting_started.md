@@ -100,11 +100,11 @@ later.
 ```kotlin
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
 
-suspend fun learn(note: Note) {
+suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
     semanticSearch.learn(SearchInput(listOf(note.content)))
 }
 
-suspend fun search(query: String): List<String> {
+suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
     semanticSearch.search(query).entries.map {
         // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
     }
@@ -121,6 +121,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 fun main() = runBlocking {
+    val semanticSearch = semanticSearch()
     println("Available commands: learn, search, quit\n")
     var shouldQuit = false
     while (!shouldQuit) {
@@ -132,12 +133,12 @@ fun main() = runBlocking {
             "learn" -> {
                 println("Enter note content:")
                 val note = readln()
-                learn(note)
+                learn(semanticSearch, note)
             }
             "search" -> {
                 println("Enter query:")
                 val query = inputQuery()
-                val results = search(query)
+                val results = search(semanticSearch, query)
                 println(results)
             }
             "quit" -> {
@@ -174,10 +175,12 @@ Bye!
 ```
 
 This is how you can use the `SemanticSearch` component from eLLMental to build an intelligent note taking application
-backend that learns from your notes and is able to find relevant notes based on a query. Please refer to
-the [Components](./Components.mdx)
-page to learn more about the different components available in eLLMental, and if you have any question, feel free to
-join the [community Discord server](https://discord.gg/34cBbvjjAx)!
+backend that learns from your notes and is able to find relevant notes based on a query.
+
+Wanna learn more? Read the [Components](./Components.mdx)
+page to discover the different components available in eLLMental, together with their thorough usage, and if you have
+any question,
+you are very welcome at the [community Discord server](https://discord.gg/34cBbvjjAx)!
 
 ## Additional sample code
 
