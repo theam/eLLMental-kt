@@ -32,6 +32,13 @@ dependencies {
     implementation("com.github.theam.ellmental:semanticsearch:main-SNAPSHOT")
     implementation("com.github.theam.ellmental:vectorstore:main-SNAPSHOT")
     implementation("com.github.theam.ellmental:embeddingsmodel:main-SNAPSHOT")
+    implementation("com.aallam.openai:openai-client:3.3.0")
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+    }
 }
 ```
 
