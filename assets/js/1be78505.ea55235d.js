@@ -22,8 +22,8 @@ var metadataUtils = __webpack_require__(1944);
 var ThemeClassNames = __webpack_require__(5281);
 // EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/utils/searchUtils.js
 var searchUtils = __webpack_require__(3320);
-// EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/utils/docsUtils.js + 1 modules
-var docsUtils = __webpack_require__(2802);
+// EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/utils/docsUtils.js
+var docsUtils = __webpack_require__(3438);
 // EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/contexts/docsVersion.js
 var docsVersion = __webpack_require__(4477);
 // EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/contexts/docsSidebar.js
@@ -204,8 +204,8 @@ function DocSidebarItems(_ref){let{items,...props}=_ref;return/*#__PURE__*/react
  */function DocSidebarDesktop(_ref){let{path,sidebar,onCollapse,isHidden}=_ref;const{navbar:{hideOnScroll},docs:{sidebar:{hideable}}}=(0,useThemeConfig/* useThemeConfig */.L)();return/*#__PURE__*/react.createElement("div",{className:(0,clsx_m/* default */.Z)(Desktop_styles_module.sidebar,hideOnScroll&&Desktop_styles_module.sidebarWithHideableNavbar,isHidden&&Desktop_styles_module.sidebarHidden)},hideOnScroll&&/*#__PURE__*/react.createElement(Logo/* default */.Z,{tabIndex:-1,className:Desktop_styles_module.sidebarLogo}),/*#__PURE__*/react.createElement(DocSidebarDesktopContent,{path:path,sidebar:sidebar}),hideable&&/*#__PURE__*/react.createElement(CollapseButton,{onClick:onCollapse}));}/* harmony default export */ const Desktop = (/*#__PURE__*/react.memo(DocSidebarDesktop));
 // EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/contexts/navbarSecondaryMenu/content.js
 var content = __webpack_require__(3102);
-// EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/contexts/navbarMobileSidebar.js + 1 modules
-var navbarMobileSidebar = __webpack_require__(2961);
+// EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/contexts/navbarMobileSidebar.js
+var navbarMobileSidebar = __webpack_require__(3163);
 ;// CONCATENATED MODULE: ./node_modules/@docusaurus/theme-classic/lib/theme/DocSidebar/Mobile/index.js
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.

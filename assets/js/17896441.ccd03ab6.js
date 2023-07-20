@@ -1267,8 +1267,8 @@ var Noop = __webpack_require__(1875);
  - user doesn't ask to hide it with front matter
  - the markdown content does not already contain a top-level h1 heading
 */function useSyntheticTitle(){const{metadata,frontMatter,contentTitle}=useDoc();const shouldRender=!frontMatter.hide_title&&typeof contentTitle==='undefined';if(!shouldRender){return null;}return metadata.title;}function DocItemContent(_ref){let{children}=_ref;const syntheticTitle=useSyntheticTitle();return/*#__PURE__*/react.createElement("div",{className:(0,clsx_m/* default */.Z)(ThemeClassNames/* ThemeClassNames */.k.docs.docMarkdown,'markdown')},syntheticTitle&&/*#__PURE__*/react.createElement("header",null,/*#__PURE__*/react.createElement(Heading,{as:"h1"},syntheticTitle)),/*#__PURE__*/react.createElement(MDXContent,null,children));}
-// EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/utils/docsUtils.js + 1 modules
-var docsUtils = __webpack_require__(2802);
+// EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/utils/docsUtils.js
+var docsUtils = __webpack_require__(3438);
 // EXTERNAL MODULE: ./node_modules/@docusaurus/theme-common/lib/utils/routesUtils.js
 var routesUtils = __webpack_require__(8596);
 // EXTERNAL MODULE: ./node_modules/@docusaurus/core/lib/client/exports/useBaseUrl.js
