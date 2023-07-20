@@ -64,7 +64,7 @@ fun main(): Unit = runBlocking {
 }
 ```
 
-Refer to our [documentation site](https://docs.ellemental.com) to access more learning resources, a comprehensive list of the available components, and guides to use them for different purposes.
+Refer to our [documentation site](https://kotlin.ellmental.com) to access more learning resources, a comprehensive list of the available components, and guides to use them for different purposes.
 
 ## Contributing and Community
 
