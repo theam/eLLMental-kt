@@ -227,7 +227,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_runner_work_eLLMental_eLLMental_website_node_modules_babel_runtime_helpers_esm_extends_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7462);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7294);
 /* harmony import */ var _mdx_js_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3905);
-/* @jsxRuntime classic */ /* @jsx mdx */ /* @jsxFrag React.Fragment */const frontMatter={};const contentTitle='Getting started';const metadata={"unversionedId":"getting_started","id":"getting_started","title":"Getting started","description":"eLLMental is a toolset for building AI-powered applications written in Kotlin, and it offers a variety of components","source":"@site/docs/02_getting_started.md","sourceDirName":".","slug":"/getting_started","permalink":"/getting_started","draft":false,"tags":[],"version":"current","lastUpdatedBy":"Nick Tchayka","lastUpdatedAt":1689870226,"formattedLastUpdatedAt":"Jul 20, 2023","sidebarPosition":2,"frontMatter":{},"sidebar":"docs","previous":{"title":"Introduction","permalink":"/"},"next":{"title":"Components","permalink":"/Components"}};const assets={};const toc=[{value:'Step 0: Create a new Kotlin application project',id:'step-0-create-a-new-kotlin-application-project',level:2},{value:'Step 1: Add the eLLMental dependencies using JitPack',id:'step-1-add-the-ellmental-dependencies-using-jitpack',level:2},{value:'Step 2: Creating the Note class',id:'step-2-creating-the-note-class',level:2},{value:'Step 3: Initializing the SemanticSearch component',id:'step-3-initializing-the-semanticsearch-component',level:2},{value:'Step 4: Implementing the <code>learn</code> and <code>search</code> features',id:'step-4-implementing-the-learn-and-search-features',level:2},{value:'Step 5: Creating a main function',id:'step-5-creating-a-main-function',level:2},{value:'Step 6: Running the application',id:'step-6-running-the-application',level:2},{value:'Additional sample code',id:'additional-sample-code',level:2}];const layoutProps={toc};const MDXLayout="wrapper";function MDXContent(_ref){let{components,...props}=_ref;return (0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)(MDXLayout,(0,_home_runner_work_eLLMental_eLLMental_website_node_modules_babel_runtime_helpers_esm_extends_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)({},layoutProps,props,{components:components,mdxType:"MDXLayout"}),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("h1",{"id":"getting-started"},`Getting started`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("p",null,`eLLMental is a toolset for building AI-powered applications written in Kotlin, and it offers a variety of components
+/* @jsxRuntime classic */ /* @jsx mdx */ /* @jsxFrag React.Fragment */const frontMatter={};const contentTitle='Getting started';const metadata={"unversionedId":"getting_started","id":"getting_started","title":"Getting started","description":"eLLMental is a toolset for building AI-powered applications written in Kotlin, and it offers a variety of components","source":"@site/docs/02_getting_started.md","sourceDirName":".","slug":"/getting_started","permalink":"/getting_started","draft":false,"tags":[],"version":"current","lastUpdatedBy":"Nick Tchayka","lastUpdatedAt":1689871160,"formattedLastUpdatedAt":"Jul 20, 2023","sidebarPosition":2,"frontMatter":{},"sidebar":"docs","previous":{"title":"Introduction","permalink":"/"},"next":{"title":"Components","permalink":"/Components"}};const assets={};const toc=[{value:'Step 0: Create a new Kotlin application project',id:'step-0-create-a-new-kotlin-application-project',level:2},{value:'Step 1: Add the eLLMental dependencies using JitPack',id:'step-1-add-the-ellmental-dependencies-using-jitpack',level:2},{value:'Step 2: Creating the Note class',id:'step-2-creating-the-note-class',level:2},{value:'Step 3: Initializing the SemanticSearch component',id:'step-3-initializing-the-semanticsearch-component',level:2},{value:'Step 4: Implementing the <code>learn</code> and <code>search</code> features',id:'step-4-implementing-the-learn-and-search-features',level:2},{value:'Step 5: Creating a main function',id:'step-5-creating-a-main-function',level:2},{value:'Step 6: Running the application',id:'step-6-running-the-application',level:2},{value:'Additional sample code',id:'additional-sample-code',level:2}];const layoutProps={toc};const MDXLayout="wrapper";function MDXContent(_ref){let{components,...props}=_ref;return (0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)(MDXLayout,(0,_home_runner_work_eLLMental_eLLMental_website_node_modules_babel_runtime_helpers_esm_extends_js__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)({},layoutProps,props,{components:components,mdxType:"MDXLayout"}),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("h1",{"id":"getting-started"},`Getting started`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("p",null,`eLLMental is a toolset for building AI-powered applications written in Kotlin, and it offers a variety of components
 that you can use right away. In this guide, we will guide you through an example of how to use
 the `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("a",{parentName:"p","href":"/api_docs/ellmental/com.theagilemonkeys.ellmental.semanticsearch/"},`SemanticSearch component`),` to build an
 intelligent note taking application for the terminal that learns from your notes and is able to find
@@ -252,6 +252,10 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
     }
 }
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.\`in\`
+}
 `)),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("h2",{"id":"step-2-creating-the-note-class"},`Step 2: Creating the Note class`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("p",null,`Let's create a `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`Note`),` class. This class will have two
 properties: `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`id`),` type `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`Int`),` for the note identifier and `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`content`),` type `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`String`),` for the note content.`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("pre",null,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("code",{parentName:"pre","className":"language-kotlin"},`data class Note(
     val id: Int,
@@ -265,6 +269,7 @@ import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
 
 fun embeddingsModel(): OpenAIEmbeddingsModel {
     val openaiToken = System.getenv("OPEN_AI_API_KEY")
+    check(openaiToken != null) { "OPEN_AI_API_KEY environment variable is not set" }
     with(OpenAI(token = openaiToken)) {
         return OpenAIEmbeddingsModel()
     }
@@ -272,7 +277,9 @@ fun embeddingsModel(): OpenAIEmbeddingsModel {
 
 fun vectorStore(): PineconeVectorStore {
     val pineconeToken = System.getenv("PINECONE_API_KEY")
+    check (pineconeToken != null) { "PINECONE_API_KEY environment variable is not set" }
     val pineconeUrl = System.getenv("PINECONE_URL")
+    check (pineconeUrl != null) { "PINECONE_URL environment variable is not set" }
     return PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)
 }
 `)),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("p",null,`Next, we will do the same for initializing the `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`SemanticSearch`),` instance. Import the `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`SemanticSearch`),` component
@@ -300,30 +307,32 @@ suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
 suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
     semanticSearch.search(query).entries.map {
         // Here entries can be mapped to your corresponding data models based on the returned \`SemanticEntry\` object
+        // we just gonna return the id
+        it.id.value
     }
 }
-`)),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("h2",{"id":"step-5-creating-a-main-function"},`Step 5: Creating a main function`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("p",null,`The only thing that's missing now is an application loop. Let's implement so in the `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`main`),` function.`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("pre",null,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("code",{parentName:"pre","className":"language-kotlin"},`import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-
-fun main() = runBlocking {
+`)),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("h2",{"id":"step-5-creating-a-main-function"},`Step 5: Creating a main function`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("p",null,`The only thing that's missing now is an application loop. Let's implement so in the `,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("inlineCode",{parentName:"p"},`main`),` function.`),(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("pre",null,(0,_mdx_js_react__WEBPACK_IMPORTED_MODULE_1__/* .mdx */ .kt)("code",{parentName:"pre","className":"language-kotlin"},`fun main() = runBlocking {
     val semanticSearch = semanticSearch()
     println("Available commands: learn, search, quit\\n")
     var shouldQuit = false
     while (!shouldQuit) {
         print("> ")
-        when (val event = readln()) {
+        when (readln()) {
             "help" -> {
                 println("Available commands: learn, search, quit")
             }
             "learn" -> {
                 println("Enter note content:")
-                val note = readln()
+                val txt = readln()
+                val note = Note(
+                  id = 1,
+                  content = txt
+                )
                 learn(semanticSearch, note)
             }
             "search" -> {
                 println("Enter query:")
-                val query = inputQuery()
+                val query = readln()
                 val results = search(semanticSearch, query)
                 println(results)
             }
