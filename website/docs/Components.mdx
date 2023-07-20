@@ -1,6 +1,11 @@
----
-title: Components
----
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+export const TAB_GROUP_ID = "style"
+export const PARAMETER_STYLE_VALUE = "kotlin-parameter"
+export const CONTEXT_STYLE_VALUE = "kotlin-context"
+export const PARAMETER_STYLE_LABEL = "Kotlin (Parameter Passing)"
+export const CONTEXT_STYLE_LABEL = "Kotlin (Context Receivers)"
 
 # Introduction to the usage of components
 
@@ -12,52 +17,36 @@ In eLLMental, components are defined through interfaces. This means that you can
 own implementations, or even use multiple implementations of the same component in the same application. This allows
 you to easily experiment with different components and see which ones work best for your use case.
 
-In order to use a component, you have two different options:
+You write your functions and classes in terms of these components, and then you pass concrete implementations of the
+components when you call the functions or instantiate the classes.
 
-## Option 1: Pass the component as a parameter
-
-This is the simplest way to use a component. You simply pass the component as a parameter to the function or the
-constructor of the
-class where you will use the component. Here's an example:
+<Tabs groupId={TAB_GROUP_ID}>
+<TabItem value={PARAMETER_STYLE_VALUE} label={PARAMETER_STYLE_LABEL}>
 
 ```kotlin
 import com.theagilemonkeys.ellmental.embeddingmodel.*
 
 // Passing it as a parameter to the function
 suspend fun doSomething(embeddingModel: EmbeddingModel<Any>): Embedding {
-    return embeddingModel.embed("Hello world!")
+  return embeddingModel.embed("Hello world!")
 }
 
 // Passing it as a parameter to the constructor
 class MyService(val embeddingModel: EmbeddingModel<Any>) {
-    suspend fun doSomething(): Embedding {
-        return embeddingModel.embed("Hello world!")
-    }
+  suspend fun doSomething(): Embedding {
+    return embeddingModel.embed("Hello world!")
+  }
 }
 ```
 
-Then, you would pass a concrete implementation when calling these functions or instantiating the class:
+</TabItem>
 
-```kotlin
-suspend fun main() {
-    // Instantiate the concrete implementation of the EmbeddingModel interface
-    val embeddingModel = OpenAIEmbeddingsModel("API KEY")
+<TabItem value={CONTEXT_STYLE_VALUE} label={CONTEXT_STYLE_LABEL}>
 
-    // Passing it as a parameter to the function
-    doSomething(embeddingModel)
-
-    // Passing it as a parameter to the constructor
-    val myService = MyService(embeddingModel)
-    myService.doSomething()
-}
-```
-
-# Option 2: Use Context Receivers
-
-Context Receivers are a Kotlin feature that allows you to express the required dependencies of a function or a class
-through the use of the `context` keyword. This way you can avoid passing the dependencies as parameters, and instead
-let the compiler inject the dependencies for you. This is like dependency injection, but without the need for a
-dependency injection framework. Here's an example:
+  [Context Receivers](https://blog.rockthejvm.com/kotlin-context-receivers/) are a Kotlin feature that allows you to express the required dependencies of a function or a class
+  through the use of the `context` keyword. This way you can avoid passing the dependencies as parameters, and instead
+  let the compiler inject the dependencies for you. This is like dependency injection, but without the need for a
+  dependency injection framework.
 
 ```kotlin
 import com.theagilemonkeys.ellmental.embeddingmodel.*
@@ -65,44 +54,65 @@ import com.theagilemonkeys.ellmental.embeddingmodel.*
 // Using Context Receivers in a function
 context(EmbeddingModel<Any>)
 suspend fun doSomething(): Embedding {
-    return embed("Hello world!")
+  return embed("Hello world!")
 }
 
 
 // Using Context Receivers in a class
 context(EmbeddingModel<Any>)
-class MyService {
+  class MyService {
     suspend fun doSomething(): Embedding {
-        return embed("Hello world!")
-    }
+    return embed("Hello world!")
+  }
 }
 ```
 
-This way, the methods of the `EmbeddingModel` component are available in the scope of the function or class as if they
-were defined in the function or class itself. The cool part is that if you want to depend in multiple components, you
-can simply add them to the parameters of the `context` keyword:
+</TabItem>
+</Tabs>
+
+Now you can pass your concrete implementations of the components when you call the functions or instantiate the
+classes:
+
+<Tabs groupId={TAB_GROUP_ID}>
+<TabItem value={PARAMETER_STYLE_VALUE} label={PARAMETER_STYLE_LABEL}>
 
 ```kotlin
-import com.theagilemonkeys.ellmental.embeddingmodel.*
-import com.theagilemonkeys.ellmental.vectorstore.*
+fun main() = runBlocking {
+  // Instantiate the concrete implementation of the EmbeddingModel interface
+  val embeddingModel = OpenAIEmbeddingsModel("API KEY")
 
-context(EmbeddingModel<Any>, VectorStore)
-suspend fun doSomething() {
-    TODO()
+  // Passing it as a parameter to the function
+  doSomething(embeddingModel)
+
+  // Passing it as a parameter to the constructor
+  val myService = MyService(embeddingModel)
+  myService.doSomething()
 }
 ```
 
-Then, to pass the concrete implementations, you can use the `with` Kotlin function:
+</TabItem>
+<TabItem value={CONTEXT_STYLE_VALUE} label={CONTEXT_STYLE_LABEL}>
 
 ```kotlin
-fun main() {
-    with(OpenAIEmbeddingsModel("API KEY")) {
-        with(PineconeVectorStore("API KEY")) {
-            doSomething()
-        }
-    }
+fun main() = runBlocking {
+  with(OpenAIEmbeddingsModel("API KEY")) {
+    // Calling a function
+    doSomething()
+
+    // Calling a class method
+    val myService = MyService()
+    myService.doSomething()
+  }
 }
 ```
+
+  Note the difference between the two styles: in the parameter passing style, you pass the concrete implementation as
+  a parameter to the function or constructor **manually**. While with the context receivers style, you use the `with`
+  once, and then you can call the methods of the component as if they were there in the rest of the application.
+
+</TabItem>
+</Tabs>
+
 
 # Available components
 
@@ -141,6 +151,21 @@ The EmbeddingModel component declares a single `embed` method. This method recei
 single word, a sentence, a paragraph, or even a whole book, as long as the implementation of the EmbeddingModel that
 you are using supports processing the length of text that you are passing.
 
+<Tabs groupId={TAB_GROUP_ID}>
+<TabItem value={PARAMETER_STYLE_VALUE} label={PARAMETER_STYLE_LABEL}>
+
+```kotlin
+import com.theagilemonkeys.ellmental.embeddingmodel.*
+
+suspend fun doSomething(embeddingModel: EmbeddingModel<Any>) {
+  val swimmingEmbedding = embeddingModel.embed("swimming")
+  println(swimmingEmbedding)
+}
+```
+
+</TabItem>
+<TabItem value={CONTEXT_STYLE_VALUE} label={CONTEXT_STYLE_LABEL}>
+
 ```kotlin
 import com.theagilemonkeys.ellmental.embeddingmodel.*
 
@@ -150,6 +175,9 @@ suspend fun doSomething() {
     println(swimmingEmbedding)
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ## [VectorStore](api_docs/ellmental/com.theagilemonkeys.ellmental.vectorstore/-vector-store/index.md)
 
@@ -161,6 +189,25 @@ and retrieves them.
 
 The VectorStore component declares two methods: `upsert` and `query`. The `upsert` method is used to store embeddings
 in the VectorStore, and the `query` method is used to retrieve semantically similar embeddings from the VectorStore.
+
+<Tabs groupId={TAB_GROUP_ID}>
+<TabItem value={PARAMETER_STYLE_VALUE} label={PARAMETER_STYLE_LABEL}>
+
+```kotlin
+import com.theagilemonkeys.ellmental.vectorstore.*
+
+suspend fun doSomething(vectorStore: VectorStore<Any>) {
+  val embedding = // some embedding generated by an EmbeddingModel
+
+  vectorStore.upsert(embedding)
+  val similarEmbeddings = vectorStore.query(embedding)
+  println(similarEmbeddings)
+}
+```
+
+</TabItem>
+
+<TabItem value={CONTEXT_STYLE_VALUE} label={CONTEXT_STYLE_LABEL}>
 
 ```kotlin
 import com.theagilemonkeys.ellmental.vectorstore.*
@@ -175,6 +222,9 @@ suspend fun doSomething() {
 }
 ```
 
+</TabItem>
+</Tabs>
+
 ## [SemanticSearch](api_docs/ellmental/com.theagilemonkeys.ellmental.semanticsearch/-semantic-search/index.md)
 
 The SemanticSearch component abstracts the process of generating embeddings from text and storing them in a VectorStore
@@ -183,6 +233,23 @@ components.
 
 The SemanticSearch component declares two methods: `learn` and `search`. The `learn` method is used to store the
 semantic meaning of a piece of text, and the `search` method is used to retrieve semantically similar pieces of text.
+
+<Tabs groupId={TAB_GROUP_ID}>
+<TabItem value={PARAMETER_STYLE_VALUE} label={PARAMETER_STYLE_LABEL}>
+
+```kotlin
+import com.theagilemonkeys.ellmental.semanticsearch.*
+
+suspend fun doSomething(semanticSearch: SemanticSearch<Any>) {
+  semanticSearch.learn("Hello world!")
+  val similarEmbeddings = semanticSearch.search("Hello world!")
+  println(similarEmbeddings)
+}
+```
+
+</TabItem>
+
+<TabItem value={CONTEXT_STYLE_VALUE} label={CONTEXT_STYLE_LABEL}>
 
 ```kotlin
 import com.theagilemonkeys.ellmental.semanticsearch.*
@@ -194,3 +261,6 @@ suspend fun doSomething() {
     println(similarEmbeddings)
 }
 ```
+
+</TabItem>
+</Tabs>
