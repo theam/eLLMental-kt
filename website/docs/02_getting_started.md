@@ -21,15 +21,17 @@ you can follow the steps below:
 Import the eLLMental dependencies in your `build.gradle.kts` file as follows:
 
 ```kotlin
-repositories {
-    maven { url = uri("https://jitpack.io") }
+allprojects {
+    repositories {
+        maven { url = uri("https://jitpack.io") }
+    }
 }
 
 dependencies {
-    implementation('com.github.theam:ellmental:core')
-    implementation('com.github.theam:ellmental:modules:semanticsearch')
-    implementation('com.github.theam:ellmental:modules:vectorstore')
-    implementation('com.github.theam:ellmental:modules:embeddingsmodel')
+    implementation("com.github.theam.ellmental:core:main-SNAPSHOT")
+    implementation("com.github.theam.ellmental:semanticsearch:main-SNAPSHOT")
+    implementation("com.github.theam.ellmental:vectorstore:main-SNAPSHOT")
+    implementation("com.github.theam.ellmental:embeddingsmodel:main-SNAPSHOT")
 }
 ```
 
