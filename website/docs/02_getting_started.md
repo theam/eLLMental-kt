@@ -195,6 +195,8 @@ Bye!
 This is how you can use the `SemanticSearch` component from eLLMental to build an intelligent note taking application
 backend that learns from your notes and is able to find relevant notes based on a query.
 
+[Here is a link to the repository](https://github.com/theam/ellmental-cli-notes-example) that contains this entire example.
+
 Wanna learn more? Read the [Components](./Components.mdx)
 page to discover the different components available in eLLMental, together with their thorough usage, and if you have
 any question,
