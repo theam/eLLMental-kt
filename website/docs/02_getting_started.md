@@ -1,49 +1,189 @@
 # Getting started
 
-The main package eLLMental offers is called `ellmental-core`. In this package, we provide an API implementation for your
-AI applications. This API currently supports two kinds of operations: write, and read. These two kinds of operations
-can be easily mapped to any kind of API protocol. By default, we offer a REST-style HTTP mapping, but you can easily
-map it to GraphQL or gRPC.
+eLLMental is a toolset for building AI-powered applications written in Kotlin, and it offers a variety of components
+that you can use right away. In this guide, we will guide you through an example of how to use
+the [SemanticSearch component](/api_docs/ellmental/com.theagilemonkeys.ellmental.semanticsearch/) to build an
+intelligent note taking application for the terminal that learns from your notes and is able to find
+relevant notes based on a query.
 
-> `ellmental-core` is built using Kotlin with JVM 17 and using gradle as our package manager.
+## Step 0: Create a new Kotlin application project
 
-## Creating a semantic index
+This can be done using your preferred IDE or using the command line. If you're using IntelliJ IDEA,
+you can follow the steps below:
 
-In the case that you want to create your own semantic index, we recommend you to follow the guidelines below. Anyways
-you can always see an example app in the [semantic search demo](https://github.com/theam/eLLMental/tree/main/semantic-search-service-demo) from
-the repo.
+1. Open IntelliJ IDEA and click on `Create New Project`.
+2. Select `New Project` in the left panel and then select `Kotlin` and `Gradle` in the right panel. Choose `Kotlin` as
+   the Build DSL.
+3. Click `Create` and then enter the project name and location.
 
-First, you'll need to implement the `API.kt` module from `ellmental-core`. This includes two main operations: `read` and `write`.
+## Step 1: Add the eLLMental dependencies using [JitPack](https://jitpack.io)
 
-Second, you'll have to select the embedding's model you want to use. If you want to use the implementations we provide, you
-can use the ones in the `embeddings-model` module.
-
-Third, you'll need your implementation to call the Vector store you'd want to use. Existing vector stores implementation are present in
-the `vector-store` module.
-
-Finally, you'll need to put everything together in the Semantic Search module. Here's an example with also the `Main.kt` file:
+Import the eLLMental dependencies in your `build.gradle.kts` file as follows:
 
 ```kotlin
-// Semantic search module
-fun default(): SemanticSearch =
-            with(OpenAIEmbeddingsModel("API KEY")) {
-                with(PineconeVectorStore()) {
-                    with(SemanticSearch()) {
-                        this
-                    }
-                }
+repositories {
+    maven { url = uri("https://jitpack.io") }
+}
+
+dependencies {
+    implementation('com.github.theam:ellmental:core')
+    implementation('com.github.theam:ellmental:modules:semanticsearch')
+    implementation('com.github.theam:ellmental:modules:vectorstore')
+    implementation('com.github.theam:ellmental:modules:embeddingsmodel')
+}
+```
+
+## Step 2: Creating the Note class
+
+Let's create a `Note` class. This class will have two
+properties: `id` type `Int` for the note identifier and `content` type `String` for the note content.
+
+```kotlin
+data class Note(
+    val id: Int,
+    val content: String
+)
+```
+
+## Step 3: Initializing the SemanticSearch component
+
+Before initializing the `SemanticSearch` component, we need to set up the `OpenAIEmbeddingsModel`
+and `PineconeVectorStore`, which are two key components required by `SemanticSearch`.
+
+You can initialize these components in their own function, so you can do stuff like loading the
+tokens from your environment variables.
+
+```kotlin
+import com.aallam.openai.client.OpenAI
+import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel
+import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
+
+fun embeddingsModel(): OpenAIEmbeddingsModel {
+    val openaiToken = System.getenv("OPEN_AI_API_KEY")
+    with(OpenAI(token = openaiToken)) {
+        return OpenAIEmbeddingsModel()
+    }
+}
+
+fun vectorStore(): PineconeVectorStore {
+    val pineconeToken = System.getenv("PINECONE_API_KEY")
+    val pineconeUrl = System.getenv("PINECONE_URL")
+    return PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)
+}
+```
+
+Next, we will do the same for initializing the `SemanticSearch` instance. Import the `SemanticSearch` component
+from eLLMental and create an instance using the functions you created above.
+
+```kotlin
+import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel
+import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
+import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
+
+
+fun semanticSearch(): SemanticSearch {
+    val embeddingsModel = embeddingsModel()
+    val vectorStore = vectorStore()
+    with(embeddingsModel) {
+        with(vectorStore) {
+            return SemanticSearch()
+        }
+    }
+}
+```
+
+## Step 4: Implementing the `learn` and `search` features
+
+Let's implement the `learn` and `search` features to add new notes into the `SemanticSearch` index and find them
+later.
+
+```kotlin
+import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
+
+suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
+    semanticSearch.learn(SearchInput(listOf(note.content)))
+}
+
+suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
+    semanticSearch.search(query).entries.map {
+        // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
+    }
+}
+```
+
+## Step 5: Creating a main function
+
+The only thing that's missing now is an application loop. Let's implement so in the `main` function.
+
+```kotlin
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+fun main() = runBlocking {
+    val semanticSearch = semanticSearch()
+    println("Available commands: learn, search, quit\n")
+    var shouldQuit = false
+    while (!shouldQuit) {
+        print("> ")
+        when (val event = readln()) {
+            "help" -> {
+                println("Available commands: learn, search, quit")
             }
-
+            "learn" -> {
+                println("Enter note content:")
+                val note = readln()
+                learn(semanticSearch, note)
+            }
+            "search" -> {
+                println("Enter query:")
+                val query = inputQuery()
+                val results = search(semanticSearch, query)
+                println(results)
+            }
+            "quit" -> {
+                println("Bye!")
+                shouldQuit = true
+            }
+            else -> {
+                println("Invalid command")
+            }
+        }
+    }
+}
 ```
 
-```Main.kt
-SemanticSearch.default().api.runHttp(port = 8080)
+## Step 6: Running the application
+
+Now you can run your application either from the IDE run button or from the command line using `./gradlew run`.
+
+```text
+Available commands: learn, search, quit
+> learn
+
+Enter note content:
+This is a note about eLLMental, an open source library for building intelligent applications.
+
+> search
+
+Enter query:
+eLLMental
+[This is a note about eLLMental, an open source library for building intelligent applications.]
+
+> quit
+Bye!
 ```
 
-After that, you can run `./gradlew :<your_service>:run` to serve your API.
+This is how you can use the `SemanticSearch` component from eLLMental to build an intelligent note taking application
+backend that learns from your notes and is able to find relevant notes based on a query.
 
-## Creating your own module
+Wanna learn more? Read the [Components](./Components.mdx)
+page to discover the different components available in eLLMental, together with their thorough usage, and if you have
+any question,
+you are very welcome at the [community Discord server](https://discord.gg/34cBbvjjAx)!
 
-If you plan to create a different package or module using Kotlin (like `llmental-core`), you can duplicate the `.kotlin-template`
-folder and rename it to your package name. After that, you'll have to add the package name to the `settings.gradle.kts`
-file, in the `includes` list. This way we will keep the same structure for all of them.
+## Additional sample code
+
+In addition to this guide, you can find a simpler sample application that exposes the `SemanticSearch` component from
+eLLMental as a REST API in
+the [eLLMental Examples repository](https://github.com/theam/eLLMental/tree/main/examples/semanticsearchservicedemo).
