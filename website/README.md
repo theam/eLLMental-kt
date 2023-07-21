@@ -10,6 +10,12 @@ $ npm i
 
 ## Local Development
 
+First, from the project root, you need to run: `./gradlew processDokkaDocs`
+
+Then, cd into this folder -> `cd website`
+
+Finally, you can run the following command:
+
 ```
 $ npm run start
 ```
