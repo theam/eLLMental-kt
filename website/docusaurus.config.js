@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'eLLMental',
-  favicon: 'img/isotype.png',
+  favicon: 'img/favicon.png',
 
   // Set the production url of your site here
   url: 'https://kotlin.ellmental.com',
@@ -63,8 +63,8 @@ const config = {
       navbar: {
         logo: {
           alt: 'eLLMental Logo',
-          src: '/img/logoellmental.png',
-          srcDark: '/img/ellemental white.png'
+          src: '/img/eLLMental logo - Black.png',
+          srcDark: '/img/eLLMental logo - White.png'
         },
         items: [
           {
