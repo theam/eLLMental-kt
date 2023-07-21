@@ -11455,7 +11455,7 @@ if (true) {
  */
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   "title": "eLLMental",
-  "favicon": "img/isotype.png",
+  "favicon": "img/favicon.png",
   "url": "https://kotlin.ellmental.com",
   "baseUrl": "/",
   "organizationName": "The Agile Monkeys S.L.",
@@ -11495,8 +11495,8 @@ if (true) {
     "navbar": {
       "logo": {
         "alt": "eLLMental Logo",
-        "src": "/img/logoellmental.png",
-        "srcDark": "/img/ellemental white.png"
+        "src": "/img/eLLMental logo - Black.png",
+        "srcDark": "/img/eLLMental logo - White.png"
       },
       "items": [
         {
