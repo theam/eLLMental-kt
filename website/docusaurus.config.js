@@ -63,8 +63,8 @@ const config = {
       navbar: {
         logo: {
           alt: 'eLLMental Logo',
-          src: '/img/eLLMental logo - Black.png',
-          srcDark: '/img/eLLMental logo - White.png'
+          src: '/img/eLLMental-logo-black.png',
+          srcDark: '/img/eLLMental-logo-white.png'
         },
         items: [
           {

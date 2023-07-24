@@ -1,6 +1,7 @@
 # eLLMental
 
-![eLLMental](website/static/img/logoellmental.png)
+![eLLMental](website/static/img/eLLMental-logo-black.png#gh-light-mode-only)
+![eLLMental](website/static/img/eLLMental-logo-white.png#gh-dark-mode-only)
 
 Welcome to eLLMental – your toolbox for the AI-era! This project is a treasure trove of configurable and composable components designed specifically to empower developers in the fascinating yet challenging journey of creating AI applications.
 
