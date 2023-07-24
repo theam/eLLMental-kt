@@ -80,6 +80,9 @@ and `PineconeVectorStore`, which are two key components required by `SemanticSea
 You can initialize these components in their own function, so you can do stuff like loading the
 tokens from your environment variables.
 
+You can follow both the [PineCone quickstart guide](https://docs.pinecone.io/docs/quickstart) as well
+as the [OpenAI API keys guide](https://platform.openai.com/docs/guides/production-best-practices/api-keys) to get the required tokens.
+
 ```kotlin
 import com.aallam.openai.client.OpenAI
 import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel
