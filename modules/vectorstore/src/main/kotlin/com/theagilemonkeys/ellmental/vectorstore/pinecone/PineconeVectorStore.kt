@@ -28,11 +28,12 @@ class PineconeVectorStore(
 ) : VectorStore {
 
     private fun post(path: String, bodyString: String? = null): String {
-        val request = Request(Method.POST, "$url$path")
-            .header("accept", "application/json")
-            .header("content-type", "application/json")
-            .header("Api-Key", apiKey)
-            .body(bodyString ?: "")
+        val request =
+            Request(Method.POST, "$url$path")
+                .header("accept", "application/json")
+                .header("content-type", "application/json")
+                .header("Api-Key", apiKey)
+                .body(bodyString ?: "")
 
         val response = client(request)
         check(response.status.successful) {
@@ -47,14 +48,18 @@ class PineconeVectorStore(
      * @param semanticEntry The semantic entry to upsert.
      */
     override suspend fun upsert(semanticEntry: SemanticEntry) {
-        val body = Schema.UpsertBody(
-            Vectors(
-                id = semanticEntry.id.value,
-                values = semanticEntry.embedding.value,
-                sparseValues = null,
-                metadata = semanticEntry.metadata
-            ),
-        )
+        val metadata1 = semanticEntry.metadata ?: emptyMap()
+        val metadata2 = mapOf("content" to semanticEntry.content)
+        val newMetadata = metadata1 + metadata2
+        val body =
+            Schema.UpsertBody(
+                Vectors(
+                    id = semanticEntry.id.value,
+                    values = semanticEntry.embedding.value,
+                    sparseValues = null,
+                    metadata = newMetadata
+                ),
+            )
         val bodyString = Json.encodeToString(Schema.UpsertBody.serializer(), body)
         post("/vectors/upsert", bodyString)
     }
@@ -66,23 +71,25 @@ class PineconeVectorStore(
      * @return a [QueryOutput] that contains a list of semantic entries that match the query.
      */
     override suspend fun query(semanticEntry: SemanticEntry): QueryOutput {
-        val body = Schema.QueryBody(
-            topK = 10,
-            includeValues = true,
-            includeMetadata = true,
-            vector = semanticEntry.embedding.value,
-        )
+        val body =
+            Schema.QueryBody(
+                topK = 10,
+                includeValues = true,
+                includeMetadata = true,
+                vector = semanticEntry.embedding.value,
+            )
         val bodyString = Json.encodeToString(Schema.QueryBody.serializer(), body)
         val responseString = post("/query", bodyString)
-        val response =
-            Json.decodeFromString(Schema.QueryResponse::class.toSerializer(), responseString)
-        val entries = response.matches.map {
-            SemanticEntry(
-                id = Id(it.id),
-                embedding = Embedding(it.values ?: emptyList()),
-                metadata = it.metadata ?: emptyMap(),
-            )
-        }
+        val response = Json.decodeFromString(Schema.QueryResponse::class.toSerializer(), responseString)
+        val entries =
+            response.matches.map {
+                SemanticEntry(
+                    id = Id(it.id),
+                    content = it.metadata?.get("content") ?: "",
+                    embedding = Embedding(it.values ?: emptyList()),
+                    metadata = it.metadata ?: emptyMap(),
+                )
+            }
         return QueryOutput(entries)
     }
 }
