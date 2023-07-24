@@ -15,19 +15,24 @@ context(EmbeddingsModel<Any>, VectorStore)
 class SemanticSearch {
 
     /**
-     * "Learns" a list of texts to make them available in future semantic searches. It uses the [EmbeddingsModel] to calculate text embeddings for each piece of text. Then it uses the [VectorStore] to persist them.
+     * "Learns" a list of texts to make them available in future semantic searches. It uses the
+     * [EmbeddingsModel] to calculate text embeddings for each piece of text. Then it uses the
+     * [VectorStore] to persist them.
      *
      * @param input A list of texts to be learned.
      */
-    suspend fun learn(input: SearchInput) = input.texts.forEach { text ->
-        check(text.isNotBlank()) { "Text cannot be blank" }
-        val embedding = embed(text)
-        val semanticEntry = SemanticEntry(embedding = embedding)
-        upsert(semanticEntry)
-    }
+    suspend fun learn(input: SearchInput) =
+        input.texts.forEach { text ->
+            check(text.isNotBlank()) { "Text cannot be blank" }
+            val embedding = embed(text)
+            val semanticEntry = SemanticEntry(content = text, embedding = embedding)
+            upsert(semanticEntry)
+        }
 
     /**
-     * Performs a semantic search operation using the provided text as reference. It will look for texts stored in the [VectorStore] that are "semantically close" to the provided one and return a ranked list of results.
+     * Performs a semantic search operation using the provided text as reference. It will look for
+     * texts stored in the [VectorStore] that are "semantically close" to the provided one and return
+     * a ranked list of results.
      *
      * @param text The text to be used as reference for semantic search.
      * @return A list of semantically similar texts ranked by semantic distance (the closest first).
@@ -35,18 +40,13 @@ class SemanticSearch {
     suspend fun search(text: String): SearchOutput {
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
-        val semanticEntry = SemanticEntry(embedding = embedding)
+        val semanticEntry = SemanticEntry(content = text, embedding = embedding)
         return SearchOutput(query(semanticEntry).entries)
     }
 }
 
 @Serializable
-data class SearchInput(
-    val texts: List<String>
-)
+data class SearchInput(val texts: List<String>)
 
 @Serializable
-data class SearchOutput(
-    val entries: List<SemanticEntry>
-)
-
+data class SearchOutput(val entries: List<SemanticEntry>)

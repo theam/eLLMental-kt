@@ -50,3 +50,4 @@ semantic-search-service-demo/.env
 .DS_Store
 
 .env
+.direnv
