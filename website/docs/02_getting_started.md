@@ -18,32 +18,46 @@ you can follow the steps below:
 
 ## Step 1: Add the eLLMental dependencies using [JitPack](https://jitpack.io)
 
-Import the eLLMental dependencies in your `build.gradle.kts` file as follows:
+Import the eLLMental dependencies in your `build.gradle.kts` file.
+
+You can use this one as a starting point:
 
 ```kotlin
-allprojects {
-    repositories {
-        maven { url = uri("https://jitpack.io") }
-    }
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+  kotlin("jvm") version "1.9.0"
+  application
 }
+
+group = "com.theagilemonkeys"
+
+version = "1.0-SNAPSHOT"
+
+allprojects { repositories { maven { url = uri("https://jitpack.io") } } }
+
+repositories { mavenCentral() }
 
 dependencies {
-    implementation("com.github.theam.ellmental:core:main-SNAPSHOT")
-    implementation("com.github.theam.ellmental:semanticsearch:main-SNAPSHOT")
-    implementation("com.github.theam.ellmental:vectorstore:main-SNAPSHOT")
-    implementation("com.github.theam.ellmental:embeddingsmodel:main-SNAPSHOT")
-    implementation("com.aallam.openai:openai-client:3.3.0")
+  implementation("com.github.theam.ellmental:core:main-SNAPSHOT")
+  implementation("com.github.theam.ellmental:semanticsearch:main-SNAPSHOT")
+  implementation("com.github.theam.ellmental:vectorstore:main-SNAPSHOT")
+  implementation("com.github.theam.ellmental:embeddingsmodel:main-SNAPSHOT")
+  implementation("com.aallam.openai:openai-client:3.3.0")
+  testImplementation(kotlin("test"))
 }
+
+tasks.test { useJUnitPlatform() }
+
+tasks.withType<KotlinCompile> { kotlinOptions.jvmTarget = "17" }
 
 tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
-    }
+  kotlinOptions { freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers" }
 }
 
-tasks.named<JavaExec>("run") {
-    standardInput = System.`in`
-}
+tasks.named<JavaExec>("run") { standardInput = System.`in` }
+
+application { mainClass.set("MainKt") }
 ```
 
 ## Step 2: Creating the Note class
@@ -65,6 +79,9 @@ and `PineconeVectorStore`, which are two key components required by `SemanticSea
 
 You can initialize these components in their own function, so you can do stuff like loading the
 tokens from your environment variables.
+
+You can follow both the [PineCone quickstart guide](https://docs.pinecone.io/docs/quickstart) as well
+as the [OpenAI API keys guide](https://platform.openai.com/docs/guides/production-best-practices/api-keys) to get the required tokens.
 
 ```kotlin
 import com.aallam.openai.client.OpenAI
