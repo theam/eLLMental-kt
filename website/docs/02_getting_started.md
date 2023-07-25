@@ -8,7 +8,7 @@ relevant notes based on a query.
 
 ## Step 0: Create a new Kotlin application project
 
-This can be done using your preferred IDE or using the command line. If you're using IntelliJ IDEA,
+This can be done using your preferred way of Kotlin project initialization. If you're using IntelliJ IDEA,
 you can follow the steps below:
 
 1. Open IntelliJ IDEA and click on `Create New Project`.
