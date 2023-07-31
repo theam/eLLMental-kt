@@ -387,7 +387,7 @@ const i18n_namespaceObject = JSON.parse('{"defaultLocale":"en","locales":["en"],
 // EXTERNAL MODULE: ./.docusaurus/codeTranslations.json
 var codeTranslations = __webpack_require__(7529);
 ;// CONCATENATED MODULE: ./.docusaurus/site-metadata.json
-const site_metadata_namespaceObject = JSON.parse('{"docusaurusVersion":"2.4.1","siteVersion":"0.0.1","pluginVersions":{"docusaurus-plugin-content-docs":{"type":"package","name":"@docusaurus/plugin-content-docs","version":"2.4.1"},"docusaurus-plugin-content-pages":{"type":"package","name":"@docusaurus/plugin-content-pages","version":"2.4.1"},"docusaurus-plugin-sitemap":{"type":"package","name":"@docusaurus/plugin-sitemap","version":"2.4.1"},"docusaurus-theme-classic":{"type":"package","name":"@docusaurus/theme-classic","version":"2.4.1"}}}');
+const site_metadata_namespaceObject = JSON.parse('{"docusaurusVersion":"2.4.1","siteVersion":"0.0.1","pluginVersions":{"docusaurus-plugin-content-docs":{"type":"package","name":"@docusaurus/plugin-content-docs","version":"2.4.1"},"docusaurus-plugin-content-pages":{"type":"package","name":"@docusaurus/plugin-content-pages","version":"2.4.1"},"docusaurus-plugin-sitemap":{"type":"package","name":"@docusaurus/plugin-sitemap","version":"2.4.1"},"docusaurus-theme-classic":{"type":"package","name":"@docusaurus/theme-classic","version":"2.4.1"},"docusaurus-plugin-fathom":{"type":"package","name":"docusaurus-plugin-fathom","version":"1.1.0"}}}');
 ;// CONCATENATED MODULE: ./node_modules/@docusaurus/core/lib/client/docusaurusContext.js
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -11487,11 +11487,17 @@ if (true) {
       }
     ]
   ],
+  "plugins": [
+    "/home/runner/work/eLLMental/eLLMental/website/node_modules/docusaurus-plugin-fathom/src/index.js"
+  ],
   "themeConfig": {
     "image": "img/logoellmental.png",
     "stylesheets": [
       "https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
     ],
+    "fathomAnalytics": {
+      "siteId": "HUKFMRPY"
+    },
     "navbar": {
       "logo": {
         "alt": "eLLMental Logo",
@@ -11742,7 +11748,6 @@ if (true) {
     "static"
   ],
   "customFields": {},
-  "plugins": [],
   "themes": [],
   "scripts": [],
   "headTags": [],
