@@ -50,8 +50,7 @@ const config = {
       }),
     ],
   ],
-
-
+  plugins: [require.resolve('docusaurus-plugin-fathom')],
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -60,6 +59,9 @@ const config = {
       stylesheets: [
         "https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap",
       ],
+      fathomAnalytics: {
+        siteId: 'HUKFMRPY',
+      },
       navbar: {
         logo: {
           alt: 'eLLMental Logo',
