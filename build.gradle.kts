@@ -64,9 +64,9 @@ subprojects {
         "testImplementation"("io.kotest:kotest-property:$kotestVersion")
     }
 
-    tasks.withType<Test>().configureEach {
-        useJUnitPlatform()
-    }
+    //tasks.withType<Test>().configureEach {
+      //  useJUnitPlatform()
+    //}
 }
 
 tasks.register<DefaultTask>("processDokkaDocs") {

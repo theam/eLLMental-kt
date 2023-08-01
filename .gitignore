@@ -46,6 +46,9 @@ semantic-search-service-demo/.env
 ### VS Code ###
 .vscode/
 
+### InteliJ ###
+.idea/
+
 ### Mac OS ###
 .DS_Store
 

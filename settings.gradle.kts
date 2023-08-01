@@ -6,7 +6,8 @@ include(
     "modules:embeddingsmodel",
     "modules:vectorstore",
     "modules:semanticsearch",
-    "examples:semanticsearchservicedemo"
+    "examples:semanticsearchservicedemo",
+    "examples:semanticsearchservicejavademo"
 )
 
 // Required for app engine deployment
