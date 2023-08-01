@@ -140,7 +140,7 @@ suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
 suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
     semanticSearch.search(query).entries.map {
         // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
-        // we just gonna return the id
+        // we're just gonna return the id
         it.id.value
     }
 }
