@@ -10,7 +10,8 @@ import kotlin.time.Duration.Companion.seconds
  * Wrapper to create an [OpenAI] client with default parameters for JVM compatibility
  *
  */
-@JvmOverloads fun openAIClient(
+@JvmOverloads
+fun OpenAIClient(
     apiKey: String,
     logging: LoggingConfig = LoggingConfig(),
     timeout: Timeout = Timeout(socket = 30.seconds),
