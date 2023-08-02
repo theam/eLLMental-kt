@@ -1,9 +1,9 @@
 package com.theagilemonkeys.ellmental.semanticsearchservicedemo
 
-import com.aallam.openai.client.OpenAI
 import com.theagilemonkeys.ellmental.core.api.API
 import com.theagilemonkeys.ellmental.core.api.apiDefinition
 import com.theagilemonkeys.ellmental.core.api.runHttp
+import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIClient
 import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel
 import com.theagilemonkeys.ellmental.semanticsearch.SearchInput
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
@@ -49,7 +49,7 @@ fun buildApi(): API<SemanticSearch> {
         it
     }
 
-    with(OpenAI(token = openaiToken)) {
+    with(OpenAIClient(apiKey = openaiToken)) {
         with(OpenAIEmbeddingsModel()) {
             with(PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)) {
                 with(SemanticSearch()) {
