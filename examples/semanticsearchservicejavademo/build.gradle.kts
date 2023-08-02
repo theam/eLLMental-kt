@@ -22,7 +22,7 @@ java {
 
 
 application {
-    mainClass.set("com.theagilemonkeys.ellmental.semanticsearchservicejavademo.Main")
+    mainClass.set("com.theagilemonkeys.ellmental.semanticsearchservicejavademo.SemanticSearchServiceJavaDemo")
 }
 
 version = "all"
@@ -34,4 +34,5 @@ dependencies {
     implementation(projects.modules.semanticsearch)
     implementation(platform("org.http4k:http4k-bom:$http4kVersion"))
     implementation("org.http4k:http4k-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }
