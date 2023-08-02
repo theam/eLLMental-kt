@@ -132,6 +132,7 @@ later.
 
 ```kotlin
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
+import com.theagilemonkeys.ellmental.semanticsearch.SearchInput
 
 suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
     semanticSearch.learn(SearchInput(listOf(note.content)))
