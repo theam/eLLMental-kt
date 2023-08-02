@@ -21,7 +21,7 @@ import org.http4k.core.Request
  * @param apiKey The API key to use to authenticate with the Pinecone API.
  * @param url The URL of the Pinecone API.
  */
-class PineconeVectorStore(
+class PineconeVectorStore @JvmOverloads constructor(
     private val apiKey: String,
     private val url: String,
     private val client: HttpHandler = OkHttp(),

@@ -132,6 +132,7 @@ later.
 
 ```kotlin
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
+import com.theagilemonkeys.ellmental.semanticsearch.SearchInput
 
 suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
     semanticSearch.learn(SearchInput(listOf(note.content)))
@@ -140,7 +141,7 @@ suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
 suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
     semanticSearch.search(query).entries.map {
         // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
-        // we just gonna return the id
+        // we're just gonna return the id
         it.id.value
     }
 }
