@@ -46,7 +46,7 @@ class SemanticSearch {
      */
     @OptIn(DelicateCoroutinesApi::class)
     @JvmName("learn")
-    suspend fun learnCompletableFuture(input: LearnInput) =
+    fun learnCompletableFuture(input: LearnInput) =
         GlobalScope.future { learn(input) }
 
     /**
@@ -78,7 +78,7 @@ class SemanticSearch {
      */
     @OptIn(DelicateCoroutinesApi::class)
     @JvmName("search")
-    suspend fun searchCompletableFuture(text: String, itemsLimit: Int) =
+    fun searchCompletableFuture(text: String, itemsLimit: Int) =
         GlobalScope.future { search(text) }
 }
 
