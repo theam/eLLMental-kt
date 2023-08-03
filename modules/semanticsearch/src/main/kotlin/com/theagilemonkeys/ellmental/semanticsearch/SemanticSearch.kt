@@ -79,7 +79,7 @@ class SemanticSearch {
     @OptIn(DelicateCoroutinesApi::class)
     @JvmName("search")
     fun searchCompletableFuture(text: String, itemsLimit: Int) =
-        GlobalScope.future { search(text) }
+        GlobalScope.future { search(text, itemsLimit) }
 }
 
 @Serializable
