@@ -1,64 +1,44 @@
 package com.theagilemonkeys.ellmental.semanticsearchservicejavademo;
 
 import com.aallam.openai.client.OpenAI;
-import com.aallam.openai.client.OpenAIKt;
 import com.theagilemonkeys.ellmental.core.api.API;
 import com.theagilemonkeys.ellmental.core.api.HTTPKt;
-import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel;
-import com.theagilemonkeys.ellmental.semanticsearch.SearchInput;
+import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel;;
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch;
+import com.theagilemonkeys.ellmental.semanticsearchservicejavademo.config.JavaDemoConfig;
+import com.theagilemonkeys.ellmental.semanticsearchservicejavademo.controller.SemanticSearchController;
 import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore;
-import io.github.cdimascio.dotenv.Dotenv;
-import kotlin.jvm.JvmClassMappingKt;
-import org.http4k.client.OkHttp;
+import io.micronaut.runtime.Micronaut;
 
-import java.util.function.Consumer;
-
-import static com.theagilemonkeys.ellmental.core.api.APIKt.apiDefinition;
+import static com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIClientKt.OpenAIClient;
+import static spark.Spark.*;
 
 public class SemanticSearchServiceJavaDemo {
-    private static API<SemanticSearch> buildApi() {
-        String envDir = System.getenv("DEBUG_DOTENV");
-        if (envDir == null || envDir.trim().isEmpty()) {
-            envDir = ".";
-        }
+    private SemanticSearch semanticSearch;
 
-        Dotenv env = Dotenv.configure()
-                .directory(envDir)
-                .ignoreIfMalformed()
-                .ignoreIfMissing()
-                .load();
+    private static void main(String[] args) {
+        JavaDemoConfig config = new JavaDemoConfig();
 
-        String openaiToken = env.get("OPEN_AI_API_KEY");
-        if (openaiToken == null || openaiToken.trim().isEmpty()) {
-            throw new IllegalStateException("OPEN_AI_API_KEY environment variable not set");
-        }
+        OpenAI openAI = OpenAIClient(config.getOpenaiToken());
+        OpenAIEmbeddingsModel openAIEmbeddingsModel = new OpenAIEmbeddingsModel(openAI);
+        PineconeVectorStore pineconeVectorStore = new PineconeVectorStore(config.getPineconeToken(), config.getPineconeUrl());
+        SemanticSearch semanticSearch = new SemanticSearch(openAIEmbeddingsModel, pineconeVectorStore);
 
-        String pineconeToken = env.get("PINECONE_API_KEY");
-        if (pineconeToken == null || pineconeToken.trim().isEmpty()) {
-            throw new IllegalStateException("PINECONE_API_KEY environment variable not set");
-        }
+        SemanticSearchController semanticSearchController = new SemanticSearchController(semanticSearch);
 
-        String pineconeUrl = env.get("PINECONE_URL");
-        if (pineconeUrl == null || pineconeUrl.trim().isEmpty()) {
-            throw new IllegalStateException("PINECONE_URL environment variable not set");
-        }
+        port(8080);
 
-        OpenAIKt.openAI = new OpenAI(openaiToken);
-        OpenAIEmbeddingsModel embeddingsModel = new OpenAIEmbeddingsModel();
-        PineconeVectorStore vectorStore = new PineconeVectorStore(pineconeToken, pineconeUrl, new OkHttp());
-        SemanticSearch semanticSearch = new SemanticSearch();
+        post("/learn", semanticSearchController.learn);
+        post("/search", semanticSearchController.search);
 
-        API<SemanticSearch> api = apiDefinition(JvmClassMappingKt.getKotlinClass(SemanticSearch.class), semanticSearch);
-
-        api.write("learn", (Consumer<SearchInput>) s -> semanticSearch.learn(s));
-        api.read("search", (Consumer<String>) s -> semanticSearch.search(s));
-
-        return api;
-    }
-
-    public static void main(String[] args) {
-        API<SemanticSearch> api = buildApi();
-        HTTPKt.runHttp(api, 8080);
+        awaitInitialization();
+        System.out.println("Spark server started");
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                stop();
+                System.out.println("Spark server stopped");
+            }
+        });
     }
 }

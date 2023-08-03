@@ -32,7 +32,7 @@ dependencies {
     implementation(projects.modules.embeddingsmodel)
     implementation(projects.modules.vectorstore)
     implementation(projects.modules.semanticsearch)
-    implementation(platform("org.http4k:http4k-bom:$http4kVersion"))
-    implementation("org.http4k:http4k-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("com.google.code.gson:gson:2.8.8")
+    compileOnly("com.sparkjava:spark-core:2.9.4")
+    compileOnly("org.projectlombok:lombok:1.18.28")
 }
