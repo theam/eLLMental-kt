@@ -1,22 +1,21 @@
 package com.theagilemonkeys.ellmental.semanticsearchservicejavademo;
 
 import com.aallam.openai.client.OpenAI;
-import com.theagilemonkeys.ellmental.core.api.API;
-import com.theagilemonkeys.ellmental.core.api.HTTPKt;
 import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel;;
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch;
 import com.theagilemonkeys.ellmental.semanticsearchservicejavademo.config.JavaDemoConfig;
 import com.theagilemonkeys.ellmental.semanticsearchservicejavademo.controller.SemanticSearchController;
 import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore;
-import io.micronaut.runtime.Micronaut;
+import spark.Spark;
 
 import static com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIClientKt.OpenAIClient;
-import static spark.Spark.*;
+import static spark.Spark.awaitInitialization;
+import static spark.Spark.port;
+import static spark.Spark.post;
 
 public class SemanticSearchServiceJavaDemo {
-    private SemanticSearch semanticSearch;
 
-    private static void main(String[] args) {
+    public static void main(String[] args) {
         JavaDemoConfig config = new JavaDemoConfig();
 
         OpenAI openAI = OpenAIClient(config.getOpenaiToken());
@@ -36,7 +35,7 @@ public class SemanticSearchServiceJavaDemo {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                stop();
+                Spark.stop();
                 System.out.println("Spark server stopped");
             }
         });

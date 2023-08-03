@@ -2,7 +2,6 @@ package com.theagilemonkeys.ellmental.semanticsearchservicejavademo.controller;
 
 import com.google.gson.Gson;
 import com.theagilemonkeys.ellmental.semanticsearch.SearchInput;
-import com.theagilemonkeys.ellmental.semanticsearch.SearchOutput;
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch;
 import lombok.RequiredArgsConstructor;
 import spark.Request;
@@ -16,8 +15,8 @@ public class SemanticSearchController {
         SearchInput searchInput = new Gson().fromJson(request.body(), SearchInput.class);
         return this.semanticSearch.learn(searchInput);
     };
-    public Route search = (Request request, SearchOutput response) -> {
+    public Route search = (Request request, Response response) -> {
         String text = new Gson().fromJson(request.body(), String.class);
-        return this.semanticSearch.search(text);
+        return this.semanticSearch.search(text).get();
     };
 }

@@ -10,4 +10,5 @@ dependencies {
     implementation(projects.core)
     implementation(projects.modules.embeddingsmodel)
     implementation(projects.modules.vectorstore)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
 }
