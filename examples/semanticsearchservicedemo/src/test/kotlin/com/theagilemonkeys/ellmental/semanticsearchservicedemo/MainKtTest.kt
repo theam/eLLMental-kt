@@ -66,7 +66,7 @@ class MainKtTest : StringSpec() {
             entries.forEach {
                 it.id shouldNotBe Id("")
                 it.id shouldNotBe null
-                it.embedding.value.size shouldBeGreaterThan 0
+                it.score shouldNotBe null
             }
 
         }
