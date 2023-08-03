@@ -1,6 +1,7 @@
 package com.theagilemonkeys.ellmental.vectorstore
 
 import com.theagilemonkeys.ellmental.core.schema.SemanticEntry
+import com.theagilemonkeys.ellmental.core.schema.SemanticEntryMatch
 import kotlinx.serialization.Serializable
 
 /**
@@ -23,7 +24,7 @@ interface VectorStore {
      * @param semanticEntry The semantic entry to query for.
      * @return a [QueryOutput] that contains a list of semantic entries that match the query.
      */
-    suspend fun query(semanticEntry: SemanticEntry): QueryOutput
+    suspend fun query(semanticEntry: SemanticEntry, itemsLimit: Int): QueryOutput
 }
 
 /**
@@ -32,5 +33,5 @@ interface VectorStore {
  * @property entries The list of semantic entries that match the query.
  */
 @Serializable
-data class QueryOutput(val entries: List<SemanticEntry>)
+data class QueryOutput(val entries: List<SemanticEntryMatch>)
 

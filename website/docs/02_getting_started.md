@@ -91,17 +91,19 @@ import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
 fun embeddingsModel(): OpenAIEmbeddingsModel {
     val openaiToken = System.getenv("OPEN_AI_API_KEY")
     check(openaiToken != null) { "OPEN_AI_API_KEY environment variable is not set" }
-    with(OpenAI(token = openaiToken)) {
-        return OpenAIEmbeddingsModel()
-    }
+   with(OpenAI(token = openaiToken)) {
+      return OpenAIEmbeddingsModel()
+   }
 }
 
 fun vectorStore(): PineconeVectorStore {
-    val pineconeToken = System.getenv("PINECONE_API_KEY")
-    check (pineconeToken != null) { "PINECONE_API_KEY environment variable is not set" }
-    val pineconeUrl = System.getenv("PINECONE_URL")
-    check (pineconeUrl != null) { "PINECONE_URL environment variable is not set" }
-    return PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)
+   val pineconeToken = System.getenv("PINECONE_API_KEY")
+   check(pineconeToken != null) { "PINECONE_API_KEY environment variable is not set" }
+   val pineconeUrl = System.getenv("PINECONE_URL")
+   check(pineconeUrl != null) { "PINECONE_URL environment variable is not set" }
+   // This is an optional parameter. It allows you to specify a namespace for your vector store. 
+   val pineconeNamespace = System.getenv("PINECONE_NAMESPACE")
+   return PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl, namespace = pineconeNamespace)
 }
 ```
 
@@ -135,15 +137,16 @@ import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
 import com.theagilemonkeys.ellmental.semanticsearch.SearchInput
 
 suspend fun learn(semanticSearch: SemanticSearch, note: Note) {
-    semanticSearch.learn(SearchInput(listOf(note.content)))
+   semanticSearch.learn(LearnInput(listOf(note.content)))
 }
 
 suspend fun search(semanticSearch: SemanticSearch, query: String): List<String> {
-    semanticSearch.search(query).entries.map {
-        // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
-        // we're just gonna return the id
-        it.id.value
-    }
+   // We will put a limit of 10 items for now
+   semanticSearch.search(query, itemsLimit = 10).entries.map {
+      // Here entries can be mapped to your corresponding data models based on the returned `SemanticEntry` object
+      // we're just gonna return the id
+      it.id.value
+   }
 }
 ```
 

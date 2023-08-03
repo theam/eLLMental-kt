@@ -1,6 +1,7 @@
 package com.theagilemonkeys.ellmental.semanticsearch
 
 import com.theagilemonkeys.ellmental.core.schema.SemanticEntry
+import com.theagilemonkeys.ellmental.core.schema.SemanticEntryMatch
 import com.theagilemonkeys.ellmental.embeddingsmodel.EmbeddingsModel
 import com.theagilemonkeys.ellmental.vectorstore.VectorStore
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ class SemanticSearch {
      *
      * @param input A list of texts to be learned.
      */
-    suspend fun learn(input: SearchInput) =
+    suspend fun learn(input: LearnInput) =
         input.texts.forEach { text ->
             check(text.isNotBlank()) { "Text cannot be blank" }
             val embedding = embed(text)
@@ -35,18 +36,19 @@ class SemanticSearch {
      * a ranked list of results.
      *
      * @param text The text to be used as reference for semantic search.
+     * @param itemsLimit The maximum number of results to return.
      * @return A list of semantically similar texts ranked by semantic distance (the closest first).
      */
-    suspend fun search(text: String): SearchOutput {
+    suspend fun search(text: String, itemsLimit: Int): SearchOutput {
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(content = text, embedding = embedding)
-        return SearchOutput(query(semanticEntry).entries)
+        return SearchOutput(query(semanticEntry, itemsLimit).entries)
     }
 }
 
 @Serializable
-data class SearchInput(val texts: List<String>)
+data class LearnInput(val texts: List<String>)
 
 @Serializable
-data class SearchOutput(val entries: List<SemanticEntry>)
+data class SearchOutput(val entries: List<SemanticEntryMatch>)

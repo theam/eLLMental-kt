@@ -1,9 +1,9 @@
 package com.theagilemonkeys.ellmental.vectorstore.pinecone
 
 import com.theagilemonkeys.ellmental.core.api.toSerializer
-import com.theagilemonkeys.ellmental.core.schema.Embedding
 import com.theagilemonkeys.ellmental.core.schema.Id
 import com.theagilemonkeys.ellmental.core.schema.SemanticEntry
+import com.theagilemonkeys.ellmental.core.schema.SemanticEntryMatch
 import com.theagilemonkeys.ellmental.vectorstore.QueryOutput
 import com.theagilemonkeys.ellmental.vectorstore.VectorStore
 import com.theagilemonkeys.ellmental.vectorstore.pinecone.Schema.Vectors
@@ -24,6 +24,7 @@ import org.http4k.core.Request
 class PineconeVectorStore @JvmOverloads constructor(
     private val apiKey: String,
     private val url: String,
+    private val namespace: String? = null,
     private val client: HttpHandler = OkHttp(),
 ) : VectorStore {
 
@@ -59,6 +60,7 @@ class PineconeVectorStore @JvmOverloads constructor(
                     sparseValues = null,
                     metadata = newMetadata
                 ),
+                namespace = namespace,
             )
         val bodyString = Json.encodeToString(Schema.UpsertBody.serializer(), body)
         post("/vectors/upsert", bodyString)
@@ -70,24 +72,26 @@ class PineconeVectorStore @JvmOverloads constructor(
      * @param semanticEntry The semantic entry to query for.
      * @return a [QueryOutput] that contains a list of semantic entries that match the query.
      */
-    override suspend fun query(semanticEntry: SemanticEntry): QueryOutput {
+    override suspend fun query(semanticEntry: SemanticEntry, itemsLimit: Int): QueryOutput {
         val body =
             Schema.QueryBody(
-                topK = 10,
+                topK = itemsLimit,
                 includeValues = true,
                 includeMetadata = true,
                 vector = semanticEntry.embedding.value,
+                namespace = namespace,
             )
+
         val bodyString = Json.encodeToString(Schema.QueryBody.serializer(), body)
         val responseString = post("/query", bodyString)
         val response = Json.decodeFromString(Schema.QueryResponse::class.toSerializer(), responseString)
         val entries =
             response.matches.map {
-                SemanticEntry(
+                SemanticEntryMatch(
                     id = Id(it.id),
                     content = it.metadata?.get("content") ?: "",
-                    embedding = Embedding(it.values ?: emptyList()),
-                    metadata = it.metadata ?: emptyMap(),
+                    metadata = it.metadata?.let { metadata -> metadata - "content" },
+                    score = it.score
                 )
             }
         return QueryOutput(entries)

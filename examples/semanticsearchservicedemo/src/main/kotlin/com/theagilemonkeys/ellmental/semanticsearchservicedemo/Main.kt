@@ -5,7 +5,7 @@ import com.theagilemonkeys.ellmental.core.api.apiDefinition
 import com.theagilemonkeys.ellmental.core.api.runHttp
 import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIClient
 import com.theagilemonkeys.ellmental.embeddingsmodel.openai.OpenAIEmbeddingsModel
-import com.theagilemonkeys.ellmental.semanticsearch.SearchInput
+import com.theagilemonkeys.ellmental.semanticsearch.LearnInput
 import com.theagilemonkeys.ellmental.semanticsearch.SemanticSearch
 import com.theagilemonkeys.ellmental.vectorstore.pinecone.PineconeVectorStore
 import io.github.cdimascio.dotenv.dotenv
@@ -25,11 +25,13 @@ fun buildApi(): API<SemanticSearch> {
         if (it.isNullOrBlank()) "."
         else it
     }
+
     val env = dotenv {
         directory = envDir
         ignoreIfMalformed = true
         ignoreIfMissing = true
     }
+
     val openaiToken = env["OPEN_AI_API_KEY"].let {
         check(it != null && it.trim().isNotBlank()) {
             "OPEN_AI_API_KEY environment variable not set: $it"
@@ -49,13 +51,15 @@ fun buildApi(): API<SemanticSearch> {
         it
     }
 
+    val pineconeNamespace = env["PINECONE_NAMESPACE"]
+
     with(OpenAIClient(apiKey = openaiToken)) {
         with(OpenAIEmbeddingsModel()) {
-            with(PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl)) {
+            with(PineconeVectorStore(apiKey = pineconeToken, url = pineconeUrl, namespace = pineconeNamespace)) {
                 with(SemanticSearch()) {
                     val api = SemanticSearch::class.apiDefinition {
-                        write("learn") { s: SearchInput -> learn(s) }
-                        read("search") { s: String -> search(s) }
+                        write("learn") { s: LearnInput -> learn(s) }
+                        read("search") { query: String -> search(query, 10) }
                     }
 
                     return api
