@@ -11,6 +11,8 @@ plugins {
 dependencies {
     implementation(projects.core)
     implementation(platform("org.http4k:http4k-bom:$http4kVersion"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
     implementation("org.http4k:http4k-core")
     implementation("org.http4k:http4k-client-okhttp")
+    implementation("io.github.amikos-tech:chromadb-java-client:0.1.2")
 }

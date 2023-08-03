@@ -1,9 +1,9 @@
 package com.theagilemonkeys.ellmental.vectorstore.chroma
 
 import com.google.gson.Gson
-import com.theagilemonkeys.ellmental.core.schema.Embedding
 import com.theagilemonkeys.ellmental.core.schema.Id
 import com.theagilemonkeys.ellmental.core.schema.SemanticEntry
+import com.theagilemonkeys.ellmental.core.schema.SemanticEntryMatch
 import com.theagilemonkeys.ellmental.vectorstore.QueryOutput
 import com.theagilemonkeys.ellmental.vectorstore.VectorStore
 import kotlinx.serialization.encodeToString
@@ -70,31 +70,31 @@ class ChromaVectorStore @JvmOverloads constructor(
      * @return a [QueryOutput] that contains a list of semantic entries that match the query.
      */
     // TODO: This is not supporting cluster IDs filtering. Implementation missing.
-    override suspend fun query(semanticEntry: SemanticEntry): QueryOutput {
+    override suspend fun query(semanticEntry: SemanticEntry, itemsLimit: Int): QueryOutput {
         val result = collection.query(
             listOf(semanticEntry.embedding.value.map { it.toFloat() }),
-            null,
+            itemsLimit,
             null,
             null,
             listOf(IncludeEnum.DISTANCES, IncludeEnum.METADATAS)
         )
 
         val entries = result?.let {
-            result.embeddings.zip(result.metadatas.flatten()).zip(result.ids.flatten()) { (embedding, metadata), id ->
-                val metadataMap: Map<String, String>? = metadata["metadata"]?.let {
-                    if (it is String) Json.decodeFromString(it) else null
-                }
+            result.metadatas.flatten().zip(result.ids.flatten())
+                .zip(result.distances.flatten()) { (metadata, id), score ->
+                    val metadataMap: Map<String, String>? = metadata["metadata"]?.let {
+                        if (it is String) Json.decodeFromString(it) else null
+                    }
 
-                val clusterId = metadataMap?.get("clusterId")?.let { Id(it) }
-                val content = metadataMap?.get("content").orEmpty()
-                SemanticEntry(
-                    id = Id(id),
-                    embedding = Embedding(embedding.map { it.toDouble() }),
-                    metadata = metadataMap?.let { it - "content" - "clusterId" },
-                    content = content,
-                    clusterId = clusterId
-                )
-
+                    val clusterId = metadataMap?.get("clusterId")?.let { Id(it) }
+                    val content = metadataMap?.get("content").orEmpty()
+                    SemanticEntryMatch(
+                        id = Id(id),
+                        metadata = metadataMap?.let { it - "content" - "clusterId" },
+                        content = content,
+                        clusterId = clusterId,
+                        score = score.toDouble()
+                    )
             }
         } ?: emptyList()
         return QueryOutput(entries)
