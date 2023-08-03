@@ -37,6 +37,7 @@ class SemanticSearch {
      * @param text The text to be used as reference for semantic search.
      * @return A list of semantically similar texts ranked by semantic distance (the closest first).
      */
+    // TODO: This is not supporting cluster IDs filtering. Implementation missing.
     suspend fun search(text: String): SearchOutput {
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
