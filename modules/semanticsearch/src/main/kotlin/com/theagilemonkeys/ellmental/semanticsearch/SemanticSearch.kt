@@ -23,10 +23,10 @@ class SemanticSearch {
      * @param input A list of texts to be learned.
      */
     suspend fun learn(input: LearnInput) =
-        input.texts.forEach { text ->
-            check(text.isNotBlank()) { "Text cannot be blank" }
-            val embedding = embed(text)
-            val semanticEntry = SemanticEntry(content = text, embedding = embedding)
+        input.data.forEach { data ->
+            check(data.text.isNotBlank()) { "Text cannot be blank" }
+            val embedding = embed(data.text)
+            val semanticEntry = SemanticEntry(content = data.text, embedding = embedding, metadata = data.metadata)
             upsert(semanticEntry)
         }
 
@@ -47,8 +47,15 @@ class SemanticSearch {
     }
 }
 
+
 @Serializable
-data class LearnInput(val texts: List<String>)
+data class Data(
+    val text: String,
+    val metadata: Map<String, String>? = null
+)
+
+@Serializable
+data class LearnInput(val data: List<Data>)
 
 @Serializable
 data class SearchOutput(val entries: List<SemanticEntryMatch>)
