@@ -20,13 +20,15 @@ class SemanticSearch {
      * [EmbeddingsModel] to calculate text embeddings for each piece of text. Then it uses the
      * [VectorStore] to persist them.
      *
-     * @param input A list of texts to be learned.
+     * @param input A list of LearnInputItems to be learned. Each LearnInputItem may contain the following:
+     * - text: The text to be learned.
+     * - metadata: A map of metadata to be associated with the text.
      */
     suspend fun learn(input: LearnInput) =
-        input.data.forEach { data ->
-            check(data.text.isNotBlank()) { "Text cannot be blank" }
-            val embedding = embed(data.text)
-            val semanticEntry = SemanticEntry(content = data.text, embedding = embedding, metadata = data.metadata)
+        input.items.forEach { item ->
+            check(item.text.isNotBlank()) { "Text cannot be blank" }
+            val embedding = embed(item.text)
+            val semanticEntry = SemanticEntry(content = item.text, embedding = embedding, metadata = item.metadata)
             upsert(semanticEntry)
         }
 
@@ -47,15 +49,16 @@ class SemanticSearch {
     }
 }
 
-
 @Serializable
-data class Data(
+data class LearnInputItem (
     val text: String,
-    val metadata: Map<String, String>? = null
+    val metadata: Map<String, String>? = emptyMap()
 )
 
 @Serializable
-data class LearnInput(val data: List<Data>)
+data class LearnInput(
+    val items: List<LearnInputItem>
+)
 
 @Serializable
 data class SearchOutput(val entries: List<SemanticEntryMatch>)
