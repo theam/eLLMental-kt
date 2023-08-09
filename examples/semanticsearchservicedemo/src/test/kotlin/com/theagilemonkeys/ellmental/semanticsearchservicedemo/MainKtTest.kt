@@ -26,7 +26,7 @@ class MainKtTest : StringSpec() {
             run {
                 val learnUri = "http://localhost:${server.port()}/SemanticSearch/learn"
                 val learnRequest = Request(Method.POST, learnUri)
-                    .body("{\"texts\": [\"$textToLearn\"]}")
+                    .body("{\"items\": [{\"text\": \"$textToLearn\"}]}")
                 val learnResponse = client(learnRequest)
                 learnResponse.bodyString() shouldContain "cannot be blank"
                 learnResponse.status.code shouldBe 500
@@ -50,7 +50,7 @@ class MainKtTest : StringSpec() {
             // Run the learn operation and ensure it was OK
             val learnUri = "http://localhost:${server.port()}/SemanticSearch/learn"
             val learnRequest = Request(Method.POST, learnUri)
-                .body("{\"texts\": [\"$textToLearn\"]}")
+                .body("{\"items\": [{\"text\": \"$textToLearn\"}]}")
             val learnResponse = client(learnRequest)
             learnResponse.status.code shouldBe 200
 
