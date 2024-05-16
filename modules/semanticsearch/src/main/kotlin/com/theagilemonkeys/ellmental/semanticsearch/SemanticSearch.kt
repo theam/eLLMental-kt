@@ -4,6 +4,9 @@ import com.theagilemonkeys.ellmental.core.schema.SemanticEntry
 import com.theagilemonkeys.ellmental.core.schema.SemanticEntryMatch
 import com.theagilemonkeys.ellmental.embeddingsmodel.EmbeddingsModel
 import com.theagilemonkeys.ellmental.vectorstore.VectorStore
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.future.future
 import kotlinx.serialization.Serializable
 
 context(EmbeddingsModel<Any>, VectorStore)
@@ -24,6 +27,7 @@ class SemanticSearch {
      * - text: The text to be learned.
      * - metadata: A map of metadata to be associated with the text.
      */
+    @JvmName("learn\$Kotlin")
     suspend fun learn(input: LearnInput) =
         input.items.forEach { item ->
             check(item.text.isNotBlank()) { "Text cannot be blank" }
@@ -31,6 +35,21 @@ class SemanticSearch {
             val semanticEntry = SemanticEntry(content = item.text, embedding = embedding, metadata = item.metadata)
             upsert(semanticEntry)
         }
+
+    /**
+     *
+     * "Learns" a list of texts to make them available in future semantic searches. It uses the
+     * [EmbeddingsModel] to calculate text embeddings for each piece of text. Then it uses the
+     * [VectorStore] to persist them.
+     *
+     * @param input A list of texts to be learned.
+     *
+     * (JVM compatible version)
+     */
+    @OptIn(DelicateCoroutinesApi::class)
+    @JvmName("learn")
+    fun learnCompletableFuture(input: LearnInput) =
+        GlobalScope.future { learn(input) }
 
     /**
      * Performs a semantic search operation using the provided text as reference. It will look for
@@ -41,12 +60,28 @@ class SemanticSearch {
      * @param itemsLimit The maximum number of results to return.
      * @return A list of semantically similar texts ranked by semantic distance (the closest first).
      */
+    @JvmName("search\$Kotlin")
     suspend fun search(text: String, itemsLimit: Int): SearchOutput {
         check(text.isNotBlank()) { "Text cannot be blank" }
         val embedding = embed(text)
         val semanticEntry = SemanticEntry(content = text, embedding = embedding)
         return SearchOutput(query(semanticEntry, itemsLimit).entries)
     }
+
+    /**
+     * Performs a semantic search operation using the provided text as reference. It will look for
+     * texts stored in the [VectorStore] that are "semantically close" to the provided one and return
+     * a ranked list of results.
+     *
+     * @param text The text to be used as reference for semantic search.
+     * @return A list of semantically similar texts ranked by semantic distance (the closest first).
+     *
+     * (JVM compatible version)
+     */
+    @OptIn(DelicateCoroutinesApi::class)
+    @JvmName("search")
+    fun searchCompletableFuture(text: String, itemsLimit: Int) =
+        GlobalScope.future { search(text, itemsLimit) }
 }
 
 @Serializable
